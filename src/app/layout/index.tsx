@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { WithStyles } from '@material-ui/core/styles/withStyles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import Sidebar from '../sidebar';
+import Sider from '../sider';
 import Player from '../player';
 
 const styles = (theme: Theme) =>
@@ -26,7 +26,7 @@ const Layout = ({ children, classes }: LayoutProps) => {
             <CssBaseline />
             <div className={classes.main}>
                 <div className={classes.sidebar}>
-                    <Sidebar />
+                    <Sider />
                 </div>
                 <div>{children}</div>
             </div>

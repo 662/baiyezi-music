@@ -28,7 +28,7 @@ export interface IDriverInstance {
 }
 
 // 歌单中的歌曲
-export interface IPlaylistItem {
+export interface IDriverSong {
     driver: string;
     song: ISong;
 }
@@ -36,5 +36,5 @@ export interface IPlaylistItem {
 // 歌单
 export interface IPlaylist {
     title: string;
-    items: IPlaylistItem[];
+    items: IDriverSong[];
 }

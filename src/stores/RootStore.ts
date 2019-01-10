@@ -1,18 +1,18 @@
 import SearchStore from './SearchStore';
-import PlaylistStore from './PlaylistStore';
 import DriverStore from './DriverStore';
-import PlayerStore from './PlayerStore';
+import PlaylistStore from './PlaylistStore';
+import SonglistStore from './SonglistStore';
 
 export default class RootStore {
     driverStore: DriverStore;
     searchStore: SearchStore;
-    // playlistStore: PlaylistStore;
-    // playerStore: PlayerStore;
+    playlistStore: PlaylistStore;
+    songlistStore: SonglistStore;
 
     constructor() {
         this.driverStore = new DriverStore(this);
         this.searchStore = new SearchStore(this);
-        // this.playlistStore = new PlaylistStore(this);
-        // this.playerStore = new PlayerStore(this);
+        this.playlistStore = new PlaylistStore(this);
+        this.songlistStore = new SonglistStore(this);
     }
 }

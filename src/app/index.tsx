@@ -1,9 +1,11 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 
 import Layout from './layout';
 import Search from './search';
+import Songlist from './songlist';
+import Playlist from './playlist';
 
 import history from '../../src/history';
 import RootStore from '../stores/RootStore';
@@ -15,7 +17,12 @@ export default function index() {
         <Provider {...store}>
             <Router history={history}>
                 <Layout>
-                    <Route path="/search" component={Search} />
+                    <Switch>
+                        <Route path="/search" component={Search} />
+                        <Route path="/playlist" component={Playlist} />
+                        <Route path="/songlist" component={Songlist} />
+                        <Redirect path="/" to="/search" />
+                    </Switch>
                 </Layout>
             </Router>
         </Provider>
