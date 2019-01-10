@@ -1,8 +1,27 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles, StyleRulesCallback } from '@material-ui/core/styles';
+import { WithStyles } from '@material-ui/core/styles/withStyles';
+import {
+    List,
+    ListItem,
+    Checkbox,
+    ListSubheader,
+    ListItemText,
+    ListItemSecondaryAction,
+    IconButton,
+    CircularProgress,
+} from '@material-ui/core';
+import { Add, PlayArrow } from '@material-ui/icons';
+
 import { SearchResult } from '../../stores/SearchStore';
-import { Song } from '../../interface';
+import { ISong } from '../../interface';
+
+const styles: StyleRulesCallback = theme => ({
+    songDetail: {
+        display: 'flex',
+    },
+});
 
 const ResultList = observer(({ results }: { results: SearchResult[] }) => (
     <div>
@@ -20,21 +39,39 @@ const ResultItem = observer(({ result }: { result: SearchResult }) => (
     </div>
 ));
 
-const SongList = observer(({ songs }: { songs: Song[] }) => (
-    <ul>
-        {songs.map((song: Song) => (
+const SongList = observer(({ songs }: { songs: ISong[] }) => (
+    <List>
+        {songs.map((song: ISong) => (
             <SongItem key={song.id} song={song} />
         ))}
-    </ul>
+    </List>
 ));
 
-const SongItem = observer(({ song }: { song: Song }) => (
-    <li>
-        <div>{song.name}</div>
-        <div>{song.singer.name}</div>
-        <div>{song.album.name}</div>
-        <div>{song.duration}</div>
-    </li>
+interface SongDetailProps extends WithStyles<typeof styles> {
+    song: ISong;
+}
+const SongDetail = withStyles(styles)(
+    observer(({ song, classes }: SongDetailProps) => (
+        <span className={classes.songDetail}>
+            <b>{song.singer.map(s => s.name).join(',')}</b>
+            <i>《{song.album.name}》</i>
+            <small>{song.duration}</small>
+        </span>
+    ))
+);
+const SongItem = observer(({ song }: { song: ISong }) => (
+    <ListItem>
+        <Checkbox tabIndex={-1} disableRipple />
+        <ListItemText primary={song.name} secondary={<SongDetail song={song} />} />
+        <ListItemSecondaryAction>
+            <IconButton aria-label="Play">
+                <PlayArrow />
+            </IconButton>
+            <IconButton aria-label="Add">
+                <Add />
+            </IconButton>
+        </ListItemSecondaryAction>
+    </ListItem>
 ));
 
 export default inject(({ searchStore }) => ({ results: searchStore.result }))(ResultList);

@@ -1,11 +1,40 @@
 import React from 'react';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { withStyles, createStyles } from '@material-ui/core/styles';
+import { WithStyles } from '@material-ui/core/styles/withStyles';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import Sidebar from '../sidebar';
+import Player from '../player';
 
-export default function Layout({ children }: any) {
+const styles = (theme: Theme) =>
+    createStyles({
+        main: {
+            display: 'flex',
+        },
+        sidebar: {
+            width: '240px',
+        },
+    });
+
+interface LayoutProps extends WithStyles<typeof styles> {
+    children: React.ReactChild;
+}
+
+const Layout = ({ children, classes }: LayoutProps) => {
     return (
         <div>
-            <div>left</div>
-            <div>{children}</div>
-            <div>footer</div>
+            <CssBaseline />
+            <div className={classes.main}>
+                <div className={classes.sidebar}>
+                    <Sidebar />
+                </div>
+                <div>{children}</div>
+            </div>
+            <div>
+                <Player />
+            </div>
         </div>
     );
-}
+};
+
+export default withStyles(styles)(Layout);
