@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 import { observer } from 'mobx-react';
 import {
     ListItem,
@@ -25,6 +25,12 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
     state = {
         anchorEl: null,
     };
+    handleAdd: MouseEventHandler = e => {
+        this.setState({ anchorEl: e.currentTarget });
+    };
+    handleCloseMenu: MouseEventHandler = e => {
+        this.setState({ anchorEl: null });
+    };
     render() {
         const { song } = this.props;
         const { anchorEl } = this.state;
@@ -40,11 +46,11 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
                         aria-label="添加到播放列表"
                         aria-owns={anchorEl ? 'add-menu' : undefined}
                         aria-haspopup="true"
-                        onClick={event => this.setState({ anchorEl: event.currentTarget })}
+                        onClick={this.handleAdd}
                     >
                         <Add />
                     </IconButton>
-                    <Menu id="add-menu" open={!!anchorEl} anchorEl={anchorEl}>
+                    <Menu id="add-menu" open={!!anchorEl} anchorEl={anchorEl} onClose={this.handleCloseMenu}>
                         <MenuItem>Profile</MenuItem>
                         <MenuItem>My account</MenuItem>
                         <MenuItem>Logout</MenuItem>
