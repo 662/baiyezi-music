@@ -1,10 +1,9 @@
-import { ISong, IDriver } from '../interface';
-import { string } from 'prop-types';
+import { ISong, IDriver, ISearchResult } from '../interface';
 
 export default class QQ implements IDriver {
     static title = 'QQ';
 
-    async search(keywords: string, page: number, limit: number): Promise<{ list: ISong[]; count: number }> {
+    async search(keywords: string, page: number, limit: number): Promise<ISearchResult> {
         const response = await fetch(
             `https://c.y.qq.com/soso/fcgi-bin/client_search_cp?p=${page}&n=${limit}&w=${keywords}&format=json&new_json=1&cr=1`
         );
@@ -17,11 +16,12 @@ export default class QQ implements IDriver {
             album: { id: song.album.id, name: song.album.name },
             singer: song.singer.map((item: any) => ({ id: item.id, name: item.name })),
             duration: song.interval * 1000,
+            driver: QQ.title,
         }));
 
         return {
             list: songs,
-            count: totalnum,
+            total: totalnum,
         };
     }
     async find(id: string | number): Promise<string> {

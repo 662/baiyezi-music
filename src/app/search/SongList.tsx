@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import { List } from '@material-ui/core';
 
 import SongItem from './SongItem';
-
 import { ISong } from '../../interface';
 
 const SongList = observer(({ songs }: { songs: ISong[] }) => (

@@ -20,7 +20,7 @@ export default function index() {
                     <Switch>
                         <Route path="/search" component={Search} />
                         <Route path="/playlist" component={Playlist} />
-                        <Route path="/songlist" component={Songlist} />
+                        <Route path="/songlist/:title" component={Songlist} />
                         <Redirect path="/" to="/search" />
                     </Switch>
                 </Layout>

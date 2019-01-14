@@ -1,13 +1,13 @@
 import RootStore from './RootStore';
 import { observable, action, autorun } from 'mobx';
-import { IPlaylist, IDriverSong } from '../interface';
+import { ISonglist, ISong } from '../interface';
 
 export default class SonglistStore {
     root: RootStore;
 
-    @observable songlists: IPlaylist[] = [];
+    @observable songlists: ISonglist[] = [];
 
-    songlistsStorageKey = 'songlists';
+    songlistsStorageKey = 'baiyezi-songlists';
 
     constructor(root: RootStore) {
         this.root = root;
@@ -22,27 +22,33 @@ export default class SonglistStore {
     }
 
     @action
-    createPlaylist(title: string) {
-        this.songlists.push({ title, items: [] });
+    createSonglist(title: string) {
+        if (title) {
+            if (this.songlists.some(item => item.title === title)) {
+                throw `歌单名已存在`;
+            } else {
+                this.songlists.push({ title, items: [] });
+            }
+        }
     }
     @action
-    renamePlaylist(oldTitle: string, newTitle: string) {
-        let playlist = this.songlists.find(pl => pl.title === oldTitle);
-        playlist!.title = newTitle;
+    renameSonglist(oldTitle: string, newTitle: string) {
+        let songlist = this.songlists.find(pl => pl.title === oldTitle);
+        songlist!.title = newTitle;
     }
     @action
-    deletePlaylist(title: string) {
+    deleteSonglist(title: string) {
         this.songlists = this.songlists.filter(pl => pl.title !== title);
     }
     @action
-    pushPlaylist(title: string, item: IDriverSong) {
-        const playlist = this.songlists.find(pl => pl.title === title);
-        playlist!.items.push(item);
+    pushSonglist(title: string, item: ISong) {
+        const songlist = this.songlists.find(pl => pl.title === title);
+        songlist!.items.push(item);
     }
     @action
-    popPlaylist(title: string, driver: string, id: string | number) {
-        const playlist = this.songlists.find(pl => pl.title === title);
-        playlist!.items = playlist!.items.filter(pli => pli.driver !== driver && pli.song.id !== id);
+    popSonglist(title: string, driver: string, id: string | number) {
+        const songlist = this.songlists.find(pl => pl.title === title);
+        songlist!.items = songlist!.items.filter(pli => pli.driver !== driver && pli.id !== id);
     }
 
     savesonglists() {

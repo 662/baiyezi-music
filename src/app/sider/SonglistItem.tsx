@@ -1,46 +1,44 @@
 import React from 'react';
-import { ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
+import { ListItem, ListItemText, IconButton, createStyles, withStyles, WithStyles, ListItemSecondaryAction } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
+import DelayTooltip from '../../components/DelayTooltip';
+import history from '../../history';
 
-interface SonglistItemProps {
+const styles = createStyles({
+    songlistitem: {
+        '& .delete': {
+            display: 'none',
+        },
+        '&:hover .delete': {
+            display: 'block',
+        },
+    },
+});
+
+interface SonglistItemProps extends WithStyles<typeof styles> {
     title: string;
-    index: number;
-    onClick(index: number): void;
-    onDelete(index: number): void;
+    onDelete(title: string): void;
 }
-interface SonglistItemState {
-    hover: boolean;
-}
-class SonglistItem extends React.Component<SonglistItemProps, SonglistItemState> {
-    state = {
-        hover: false,
-    };
-    handleMouseOver = () => this.setState({ hover: true });
-    handleMouseOut = () => this.setState({ hover: false });
-    handleClick = () => this.props.onClick(this.props.index);
-    handleDelete = () => this.props.onDelete(this.props.index);
+
+class SonglistItem extends React.Component<SonglistItemProps> {
+    handleClick = () => history.push(`/songlist/${this.props.title}`);
+    handleDelete = () => this.props.onDelete(this.props.title);
 
     render() {
-        const { title } = this.props;
-        const { hover } = this.state;
+        const { title, classes } = this.props;
         return (
-            <ListItem
-                button
-                onMouseOver={this.handleMouseOver}
-                onMouseOut={this.handleMouseOut}
-                onClick={this.handleClick}
-            >
+            <ListItem button onClick={this.handleClick} ContainerProps={{ className: classes.songlistitem }}>
                 <ListItemText primary={title} />
-                {hover && (
-                    <ListItemSecondaryAction>
-                        <IconButton aria-label="删除" onClick={this.handleDelete}>
-                            <Delete />
+                <ListItemSecondaryAction className="delete">
+                    <DelayTooltip title="删除">
+                        <IconButton onClick={this.handleDelete}>
+                            <Delete fontSize="small" />
                         </IconButton>
-                    </ListItemSecondaryAction>
-                )}
+                    </DelayTooltip>
+                </ListItemSecondaryAction>
             </ListItem>
         );
     }
 }
 
-export default SonglistItem;
+export default withStyles(styles)(SonglistItem);

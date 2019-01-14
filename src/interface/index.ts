@@ -15,26 +15,24 @@ export interface ISong {
     album: IAlbum;
     singer: ISinger[];
     duration: number;
+    driver: string;
 }
 
+export interface ISearchResult {
+    list: ISong[];
+    total: number;
+}
 // 驱动
 export interface IDriver {
-    search(keywords: string, page: number, limit: number): Promise<{ list: ISong[]; count: number }>;
+    search(keywords: string, page: number, limit: number): Promise<ISearchResult>;
     find(id: string | number): Promise<string>;
 }
 export interface IDriverInstance {
-    title:string,
+    title: string;
     instance: IDriver;
 }
-
-// 歌单中的歌曲
-export interface IDriverSong {
-    driver: string;
-    song: ISong;
-}
-
 // 歌单
-export interface IPlaylist {
+export interface ISonglist {
     title: string;
-    items: IDriverSong[];
+    items: ISong[];
 }

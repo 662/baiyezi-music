@@ -1,7 +1,21 @@
 import React from 'react';
+import { inject } from 'mobx-react';
+import { ISong } from '../../interface';
 
-export default class Playlist extends React.Component {
+interface PlaylistProps {
+    songs: ISong[];
+}
+class Playlist extends React.Component<PlaylistProps> {
     render() {
-        return <div>播放列表</div>;
+        const { songs } = this.props;
+        return (
+            <div>
+                {songs.map(item => (
+                    <div key={item.id}>{JSON.stringify(item)}</div>
+                ))}
+            </div>
+        );
     }
 }
+
+export default inject(({ playlistStore }) => ({ songs: playlistStore.songs }))(Playlist);

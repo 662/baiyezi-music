@@ -1,15 +1,21 @@
 import React from 'react';
-import { Divider } from '@material-ui/core';
+import { Divider, withStyles, WithStyles, createStyles } from '@material-ui/core';
 
 import Songlist from './Songlist';
 import Menu from './Menu';
 
-const Sider = () => (
-    <div>
+const styles = createStyles({
+    sider: {},
+});
+
+interface SiderProps extends WithStyles<typeof styles> {}
+
+const Sider = ({ classes }: SiderProps) => (
+    <div className={classes.sider}>
         <Menu />
         <Divider />
         <Songlist />
     </div>
 );
 
-export default Sider;
+export default withStyles(styles)(Sider);

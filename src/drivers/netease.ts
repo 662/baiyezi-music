@@ -1,10 +1,9 @@
-import { ISong, IDriver } from '../interface';
-import { string } from 'prop-types';
+import { ISong, IDriver, ISearchResult } from '../interface';
 
 export default class Netease implements IDriver {
     static title = '网易';
 
-    async search(keywords: string, page: number, limit: number): Promise<{ list: ISong[]; count: number }> {
+    async search(keywords: string, page: number, limit: number): Promise<ISearchResult> {
         const offset = (page - 1) * limit;
         const response = await fetch(
             `http://music.163.com/api/cloudsearch/pc?s=${keywords}&type=1&offset=${offset}&limit=${limit}`
@@ -18,11 +17,12 @@ export default class Netease implements IDriver {
             album: { id: song.al.id, name: song.al.name },
             singer: song.ar.map((item: any) => ({ id: item.id, name: item.name })),
             duration: song.dt,
+            driver: Netease.title,
         }));
 
         return {
             list,
-            count: songCount,
+            total: songCount,
         };
     }
     async find(id: string | number): Promise<string> {

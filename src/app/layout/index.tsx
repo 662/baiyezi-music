@@ -12,7 +12,18 @@ const styles = (theme: Theme) =>
             display: 'flex',
         },
         sidebar: {
+            position: 'fixed',
             width: '240px',
+            height: 'calc(100vh - 48px)',
+            borderRight: 'solid 1px #ddd',
+        },
+        content: { width: '100%', padding: '24px 24px 0 24px', marginLeft: '240px', marginBottom: '48px' },
+        player: {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            height: '48px',
+            width: '100%',
         },
     });
 
@@ -28,9 +39,9 @@ const Layout = ({ children, classes }: LayoutProps) => {
                 <div className={classes.sidebar}>
                     <Sider />
                 </div>
-                <div>{children}</div>
+                <div className={classes.content}>{children}</div>
             </div>
-            <div>
+            <div className={classes.player}>
                 <Player />
             </div>
         </div>
