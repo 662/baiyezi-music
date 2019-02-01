@@ -1,8 +1,7 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import { WithStyles } from '@material-ui/core/styles/withStyles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { CssBaseline, Snackbar } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/core';
+import { WithStyles, Theme } from '@material-ui/core';
 import Sider from '../sider';
 import Player from '../player';
 
@@ -44,6 +43,27 @@ const Layout = ({ children, classes }: LayoutProps) => {
             <div className={classes.player}>
                 <Player />
             </div>
+            {/* <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleClose}
+                ContentProps={{
+                    'aria-describedby': 'message-id',
+                }}
+                message={<span id="message-id">Note archived</span>}
+                action={[
+                    <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
+                        UNDO
+                    </Button>,
+                    <IconButton key="close" aria-label="Close" color="inherit" className={classes.close} onClick={this.handleClose}>
+                        <CloseIcon />
+                    </IconButton>,
+                ]}
+            /> */}
         </div>
     );
 };

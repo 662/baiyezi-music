@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { withStyles, createStyles, Typography, WithStyles, Theme } from '@material-ui/core';
 
-import { ISong } from '../../interface';
+import { ISong } from '../interface';
 
 const styles = (theme: Theme) =>
     createStyles({

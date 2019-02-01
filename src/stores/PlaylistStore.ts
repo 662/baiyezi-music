@@ -13,11 +13,6 @@ export default class PlaylistStore {
             const playlistJSON = JSON.stringify(this.songs);
             localStorage.setItem(this.storageKey, playlistJSON);
         });
-        // autorun(() => {
-        //     this.currentDriver.find(this.index).then((r: any) => {
-        //         this.src = r;
-        //     });
-        // });
     }
 
     root: RootStore;

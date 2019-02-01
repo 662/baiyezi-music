@@ -42,13 +42,18 @@ export default class SonglistStore {
     }
     @action
     pushSonglist(title: string, item: ISong) {
-        const songlist = this.songlists.find(pl => pl.title === title);
-        songlist!.items.push(item);
+        const songlist = this.songlists.find(pl => pl.title === title)!;
+        const predicate = (song: ISong) => song.id === item.id && song.driver == item.driver;
+        const oldIndex = songlist.items.findIndex(predicate);
+        if (oldIndex === -1) {
+            songlist.items.push(item);
+        }
     }
     @action
     popSonglist(title: string, driver: string, id: string | number) {
-        const songlist = this.songlists.find(pl => pl.title === title);
-        songlist!.items = songlist!.items.filter(pli => pli.driver !== driver && pli.id !== id);
+        console.log(title, driver, id);
+        const songlist = this.songlists.find(pl => pl.title === title)!;
+        songlist.items = songlist.items.filter(pli => pli.driver !== driver && pli.id !== id);
     }
 
     savesonglists() {

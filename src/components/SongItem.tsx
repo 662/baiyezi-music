@@ -1,13 +1,14 @@
 import React, { MouseEventHandler } from 'react';
-import { inject } from 'mobx-react';
-import { Typography, Divider, ListItemIcon, ListItem, ListItemText, ListItemSecondaryAction, IconButton, MenuItem, Fab, Menu, withStyles, createStyles, WithStyles, Theme } from '@material-ui/core';
-import { Add, PlayArrow } from '@material-ui/icons';
-import DelayTooltip from '../../components/DelayTooltip';
 
-import PlaylistStore from '../../stores/PlaylistStore';
-import SonglistStore from '../../stores/SonglistStore';
+import { Typography, Divider, ListItemIcon, ListItem, ListItemText, ListItemSecondaryAction, IconButton, MenuItem, Fab, Menu } from '@material-ui/core';
+import { withStyles, createStyles } from '@material-ui/core';
+import { WithStyles, Theme } from '@material-ui/core';
+import { Add, PlayArrow } from '@material-ui/icons';
+
+import DelayTooltip from './DelayTooltip';
 import SongDetail from './SongDetail';
-import { ISong } from '../../interface';
+
+import { ISong, ISonglist } from '../interface';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -19,12 +20,17 @@ const styles = (theme: Theme) =>
 
 interface SongItemProps extends WithStyles<typeof styles> {
     song: ISong;
-    playlistStore: PlaylistStore;
-    songlistStore: SonglistStore;
+    songlists: ISonglist[];
+    onPlay(song: ISong): void;
+    onAddToPlaylist(song: ISong): void;
+    onAddToSonglist(title: string, song: ISong): void;
+    extendAction?: React.ReactNode;
 }
+
 interface SongItemState {
     menu: boolean;
 }
+
 class SongItem extends React.Component<SongItemProps, SongItemState> {
     state = {
         menu: false,
@@ -33,21 +39,24 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
 
     handleAdd: MouseEventHandler = e => this.setState({ menu: true });
     handleCloseMenu = () => this.setState({ menu: false });
+
     handlePlay: MouseEventHandler = e => {
-        const { playlistStore, song } = this.props;
-        playlistStore.add(song, true);
+        const { onPlay, song } = this.props;
+        onPlay(song);
     };
-    handleAddToPlaylist = (song: ISong) => {
-        this.props.playlistStore.add(song);
+    handleAddToPlaylist: MouseEventHandler = e => {
+        const { onAddToPlaylist, song } = this.props;
+        onAddToPlaylist(song);
         this.handleCloseMenu();
     };
-    handleAddToSonglist = (title: string, song: ISong) => {
-        this.props.songlistStore.pushSonglist(title, song);
+    handleAddToSonglist = (title: string) => {
+        const { onAddToSonglist, song } = this.props;
+        onAddToSonglist(title, song);
         this.handleCloseMenu();
     };
 
     render() {
-        const { song, classes, songlistStore } = this.props;
+        const { song, classes, songlists, extendAction } = this.props;
         const { menu } = this.state;
 
         return (
@@ -72,19 +81,19 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
                         <Add fontSize="small" />
                     </IconButton>
                     <Menu open={menu} anchorEl={this.anchorEl} onClose={this.handleCloseMenu}>
-                        <MenuItem onClick={e => this.handleAddToPlaylist(song)}>播放列表</MenuItem>
+                        <MenuItem onClick={this.handleAddToPlaylist}>播放列表</MenuItem>
                         <Divider />
-                        {songlistStore.songlists.map(item => (
-                            <MenuItem key={item.title} onClick={e => this.handleAddToSonglist(item.title, song)}>
+                        {songlists.map(item => (
+                            <MenuItem key={item.title} onClick={e => this.handleAddToSonglist(item.title)}>
                                 {item.title}
                             </MenuItem>
                         ))}
                     </Menu>
+                    {extendAction}
                 </ListItemSecondaryAction>
             </ListItem>
         );
     }
 }
 
-const SongItemStyled = withStyles(styles)(SongItem);
-export default inject(({ playlistStore, songlistStore }) => ({ playlistStore, songlistStore }))(SongItemStyled);
+export default withStyles(styles)(SongItem);

@@ -1,16 +1,15 @@
 import React from 'react';
-import { observer } from 'mobx-react';
 import { List } from '@material-ui/core';
 
-import SongItem from './SongItem';
+import { SongItemInjected } from '../injected-components';
 import { ISong } from '../../interface';
 
-const SongList = observer(({ songs }: { songs: ISong[] }) => (
+const SongList = ({ songs }: { songs: ISong[] }) => (
     <List>
         {songs.map((song: ISong) => (
-            <SongItem key={song.id} song={song} />
+            <SongItemInjected key={song.id + song.driver} song={song} />
         ))}
     </List>
-));
+);
 
 export default SongList;

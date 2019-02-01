@@ -1,19 +1,26 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "esnext",
-        "moduleResolution": "node",
-        "jsx": "preserve",
-        "allowSyntheticDefaultImports": true,
-        "experimentalDecorators": true,
-        "allowJs": true,
-        "skipLibCheck": false,
-        "esModuleInterop": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true
-    },
-    "include": ["src"]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
+  },
+  "include": [
+    "src"
+  ]
 }
