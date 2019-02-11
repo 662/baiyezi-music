@@ -73,7 +73,11 @@ export default class PlaylistStore {
     @action
     remove(index: number) {
         this.songs.splice(index, 1);
-        this.fetchSrc();
+        if (index === this.index) {
+            this.fetchSrc();
+        } else if (index < this.index) {
+            this.index++;
+        }
     }
     // 播放某一首歌
     @action

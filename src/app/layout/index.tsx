@@ -7,6 +7,7 @@ import Sider from '../sider';
 import Player from '../player';
 import { SnackbarInjected } from '../injected-components';
 import SnackbarStore from '../../stores/SnackbarStore';
+import Menu from '../sider/Menu';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -30,17 +31,16 @@ const styles = (theme: Theme) =>
     });
 
 interface LayoutProps extends WithStyles<typeof styles> {
-    children: React.ReactChild;
-    snackbarStore: SnackbarStore;
+    children: React.ReactChild | React.ReactChild[];
+    // snackbarStore: SnackbarStore;
 }
-
 class Layout extends React.Component<LayoutProps> {
-    componentDidMount() {
-        // window.onerror = (event: Event | string, source?: string, fileno?: number, columnNumber?: number, error?: Error) => {
-        //     // this.props.snackbarStore.error(error!.message);
-        //     // return true;
-        // };
-    }
+    // componentDidMount() {
+    //     window.onerror = (event: Event | string, source?: string, fileno?: number, columnNumber?: number, error?: Error) => {
+    //         this.props.snackbarStore.error(error!.message);
+    //         return true;
+    //     };
+    // }
     render() {
         const { children, classes } = this.props;
         return (
@@ -61,5 +61,6 @@ class Layout extends React.Component<LayoutProps> {
     }
 }
 
-const LayoutStyled = withStyles(styles)(Layout);
-export default inject(({ snackbarStore }) => ({ snackbarStore }))(LayoutStyled);
+export default withStyles(styles)(Layout);
+// const LayoutStyled = withStyles(styles)(Layout);
+// export default inject(({ snackbarStore }) => ({ snackbarStore }))(LayoutStyled);

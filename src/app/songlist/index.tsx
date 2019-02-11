@@ -33,7 +33,6 @@ class Songlist extends React.Component<SonglistProps> {
     };
 
     render() {
-        console.log(1);
         const { onRemove } = this.props;
         const songlist = this.getSonglist();
         return (

@@ -5,7 +5,7 @@ import { List, IconButton, Button } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 
 import Panel from '../../components/Panel';
-import { SongItemInjected } from '../injected-components';
+import { PlaylistItemInjected } from '../injected-components';
 import { ISong } from '../../interface';
 
 interface PlaylistProps {
@@ -35,7 +35,7 @@ class Playlist extends React.Component<PlaylistProps> {
                 ) : (
                     <List>
                         {songs.map((song, index) => (
-                            <SongItemInjected
+                            <PlaylistItemInjected
                                 key={song.id + song.driver}
                                 song={song}
                                 extendAction={

@@ -19,7 +19,10 @@ class Songlist extends React.Component<SonglistProps> {
     handleShowAdd: MouseEventHandler = e => this.setState({ add: true });
     handleHideAdd = () => this.setState({ add: false });
     handleAddDone = (value: string) => this.props.songlistStore.createSonglist(value);
-    handleDelete = (title: string) => this.props.songlistStore.deleteSonglist(title);
+    handleDelete = (title: string) => {
+        const agree = confirm('删除歌单将无法恢复！\n继续？');
+        agree && this.props.songlistStore.deleteSonglist(title);
+    };
 
     render() {
         const { songlistStore } = this.props;

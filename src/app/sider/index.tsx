@@ -8,9 +8,7 @@ const styles = createStyles({
     sider: {},
 });
 
-interface SiderProps extends WithStyles<typeof styles> {}
-
-const Sider = ({ classes }: SiderProps) => (
+const Sider = ({ classes }: WithStyles<typeof styles>) => (
     <div className={classes.sider}>
         <Menu />
         <Divider />

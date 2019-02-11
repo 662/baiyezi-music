@@ -5,10 +5,27 @@ import { ISong } from '../interface';
 
 // const SongItemObservered = observer(SongItem);
 const SongItemInjected = inject(({ playlistStore, songlistStore, snackbarStore }) => ({
+    showPlaylistOnMenu: true,
     songlists: songlistStore.songlists,
     onPlay: (song: ISong) => {
         playlistStore.add(song, true);
         snackbarStore.success(`《${song.name}》已添加到 {播放列表}`);
+    },
+    onAddToPlaylist: (song: ISong) => {
+        playlistStore.add(song);
+        snackbarStore.success(`《${song.name}》已添加到 {播放列表}`);
+    },
+    onAddToSonglist: (title: string, song: ISong) => {
+        songlistStore.pushSonglist(title, song);
+        snackbarStore.success(`《${song.name}》已添加到 {${title}}`);
+    },
+}))(SongItem);
+
+const PlaylistItemInjected = inject(({ playlistStore, songlistStore, snackbarStore }) => ({
+    showPlaylistOnMenu: false,
+    songlists: songlistStore.songlists,
+    onPlay: (song: ISong) => {
+        playlistStore.add(song, true);
     },
     onAddToPlaylist: (song: ISong) => {
         playlistStore.add(song);
@@ -30,4 +47,4 @@ const SnackbarInjected = inject(({ snackbarStore }) => ({
     onExited: () => snackbarStore.show(),
 }))(SnackbarObservered);
 
-export { SongItemInjected, SnackbarInjected };
+export { SongItemInjected, PlaylistItemInjected, SnackbarInjected };

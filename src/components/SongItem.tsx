@@ -19,6 +19,7 @@ const styles = (theme: Theme) =>
     });
 
 interface SongItemProps extends WithStyles<typeof styles> {
+    showPlaylistOnMenu: boolean;
     song: ISong;
     songlists: ISonglist[];
     onPlay(song: ISong): void;
@@ -56,7 +57,7 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
     };
 
     render() {
-        const { song, classes, songlists, extendAction } = this.props;
+        const { song, classes, songlists, extendAction, showPlaylistOnMenu } = this.props;
         const { menu } = this.state;
 
         return (
@@ -81,8 +82,8 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
                         <Add fontSize="small" />
                     </IconButton>
                     <Menu open={menu} anchorEl={this.anchorEl} onClose={this.handleCloseMenu}>
-                        <MenuItem onClick={this.handleAddToPlaylist}>播放列表</MenuItem>
-                        <Divider />
+                        {showPlaylistOnMenu && <MenuItem onClick={this.handleAddToPlaylist}>播放列表</MenuItem>}
+                        {showPlaylistOnMenu && <Divider />}
                         {songlists.map(item => (
                             <MenuItem key={item.title} onClick={e => this.handleAddToSonglist(item.title)}>
                                 {item.title}
