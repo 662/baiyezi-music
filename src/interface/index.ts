@@ -36,3 +36,5 @@ export interface ISonglist {
     title: string;
     items: ISong[];
 }
+
+export type SnackbarVariant = 'success' | 'warning' | 'error' | 'info';

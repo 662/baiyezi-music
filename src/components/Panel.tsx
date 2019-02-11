@@ -6,11 +6,19 @@ const styles = (theme: Theme) =>
     createStyles({
         header: {
             marginBottom: '16px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
         },
         title: {
             fontSize: '24px',
         },
-        actions: {},
+        actions: {
+            display: 'flex',
+            '&>*': {
+                marginRight: '8px',
+            },
+        },
     });
 
 interface PanelProps extends WithStyles<typeof styles> {

@@ -25,7 +25,6 @@ interface PlayerProps extends WithStyles<typeof styles> {
 @observer
 class Player extends React.Component<PlayerProps> {
     handleEnd = () => {
-        console.log(1);
         this.props.playlistStore.playNext();
     };
 

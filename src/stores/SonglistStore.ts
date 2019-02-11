@@ -1,5 +1,5 @@
 import RootStore from './RootStore';
-import { observable, action, autorun } from 'mobx';
+import { observable, action, autorun, toJS } from 'mobx';
 import { ISonglist, ISong } from '../interface';
 
 export default class SonglistStore {
@@ -25,7 +25,7 @@ export default class SonglistStore {
     createSonglist(title: string) {
         if (title) {
             if (this.songlists.some(item => item.title === title)) {
-                throw `歌单名已存在`;
+                throw new Error(`歌单名已存在`);
             } else {
                 this.songlists.push({ title, items: [] });
             }
@@ -51,13 +51,7 @@ export default class SonglistStore {
     }
     @action
     popSonglist(title: string, driver: string, id: string | number) {
-        console.log(title, driver, id);
         const songlist = this.songlists.find(pl => pl.title === title)!;
-        songlist.items = songlist.items.filter(pli => pli.driver !== driver && pli.id !== id);
-    }
-
-    savesonglists() {
-        const songlistsJSON = JSON.stringify(this.songlists);
-        localStorage.addItem(this.songlistsStorageKey, songlistsJSON);
+        songlist.items = songlist.items.filter(pli => pli.driver !== driver || pli.id !== id);
     }
 }

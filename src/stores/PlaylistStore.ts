@@ -1,6 +1,7 @@
 import RootStore from './RootStore';
 import { action, computed, flow, autorun, observable } from 'mobx';
 import { ISong } from '../interface';
+import { appendFile } from 'fs';
 
 export default class PlaylistStore {
     constructor(root: RootStore) {
@@ -49,6 +50,18 @@ export default class PlaylistStore {
             this.fetchSrc();
         }
     }
+
+    @action
+    append(songs: ISong[], play: boolean = false) {
+        for (let i = 0; i < songs.length; i++) {
+            if (i === 0 && play) {
+                this.add(songs[i], true);
+            } else {
+                this.add(songs[i]);
+            }
+        }
+    }
+
     // 清空播放列表
     @action
     clear() {
@@ -60,6 +73,7 @@ export default class PlaylistStore {
     @action
     remove(index: number) {
         this.songs.splice(index, 1);
+        this.fetchSrc();
     }
     // 播放某一首歌
     @action

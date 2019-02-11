@@ -1,9 +1,12 @@
 import React from 'react';
-import { CssBaseline, Snackbar } from '@material-ui/core';
+import { inject } from 'mobx-react';
+import { CssBaseline } from '@material-ui/core';
 import { withStyles, createStyles } from '@material-ui/core';
 import { WithStyles, Theme } from '@material-ui/core';
 import Sider from '../sider';
 import Player from '../player';
+import { SnackbarInjected } from '../injected-components';
+import SnackbarStore from '../../stores/SnackbarStore';
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -28,44 +31,35 @@ const styles = (theme: Theme) =>
 
 interface LayoutProps extends WithStyles<typeof styles> {
     children: React.ReactChild;
+    snackbarStore: SnackbarStore;
 }
 
-const Layout = ({ children, classes }: LayoutProps) => {
-    return (
-        <div>
-            <CssBaseline />
-            <div className={classes.main}>
-                <div className={classes.sidebar}>
-                    <Sider />
+class Layout extends React.Component<LayoutProps> {
+    componentDidMount() {
+        // window.onerror = (event: Event | string, source?: string, fileno?: number, columnNumber?: number, error?: Error) => {
+        //     // this.props.snackbarStore.error(error!.message);
+        //     // return true;
+        // };
+    }
+    render() {
+        const { children, classes } = this.props;
+        return (
+            <div>
+                <CssBaseline />
+                <div className={classes.main}>
+                    <div className={classes.sidebar}>
+                        <Sider />
+                    </div>
+                    <div className={classes.content}>{children}</div>
                 </div>
-                <div className={classes.content}>{children}</div>
+                <div className={classes.player}>
+                    <Player />
+                </div>
+                <SnackbarInjected />
             </div>
-            <div className={classes.player}>
-                <Player />
-            </div>
-            {/* <Snackbar
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                open={this.state.open}
-                autoHideDuration={6000}
-                onClose={this.handleClose}
-                ContentProps={{
-                    'aria-describedby': 'message-id',
-                }}
-                message={<span id="message-id">Note archived</span>}
-                action={[
-                    <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
-                        UNDO
-                    </Button>,
-                    <IconButton key="close" aria-label="Close" color="inherit" className={classes.close} onClick={this.handleClose}>
-                        <CloseIcon />
-                    </IconButton>,
-                ]}
-            /> */}
-        </div>
-    );
-};
+        );
+    }
+}
 
-export default withStyles(styles)(Layout);
+const LayoutStyled = withStyles(styles)(Layout);
+export default inject(({ snackbarStore }) => ({ snackbarStore }))(LayoutStyled);

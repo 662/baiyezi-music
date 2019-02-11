@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
-import { List, IconButton } from '@material-ui/core';
+import { List, IconButton, Button } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 
 import Panel from '../../components/Panel';
@@ -11,14 +11,23 @@ import { ISong } from '../../interface';
 interface PlaylistProps {
     songs: ISong[];
     onRemove(index: number): void;
+    onClear(): void;
 }
 
 @observer
 class Playlist extends React.Component<PlaylistProps> {
     render() {
-        const { songs, onRemove } = this.props;
+        const { songs, onRemove, onClear } = this.props;
         return (
-            <Panel title="播放列表">
+            <Panel
+                title="播放列表"
+                actions={
+                    <Button variant="contained" size="small" onClick={onClear}>
+                        <Delete fontSize="small" />
+                        清空
+                    </Button>
+                }
+            >
                 {songs.length === 0 ? (
                     <div>
                         暂无歌曲，去<Link to="/search">添加</Link>
@@ -43,4 +52,8 @@ class Playlist extends React.Component<PlaylistProps> {
     }
 }
 
-export default inject(({ playlistStore }) => ({ songs: playlistStore.songs, onRemove: (index: number) => playlistStore.remove(index) }))(Playlist);
+export default inject(({ playlistStore }) => ({
+    songs: playlistStore.songs,
+    onClear: () => playlistStore.clear(),
+    onRemove: (index: number) => playlistStore.remove(index),
+}))(Playlist);
