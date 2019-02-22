@@ -114,9 +114,11 @@ class Player extends React.Component<PlayerProps> {
     }
 
     next = () => {
+        const audio = this.audio!;
         const { mode, playNext, playRandom } = this.props;
         switch (mode) {
             case 'single':
+                audio.load();
                 break;
             case 'list':
                 playNext(true);
@@ -130,9 +132,11 @@ class Player extends React.Component<PlayerProps> {
         }
     };
     prev = () => {
+        const audio = this.audio!;
         const { mode, playRandom, playPrev } = this.props;
         switch (mode) {
             case 'single':
+                audio.load();
                 break;
             case 'list':
                 playPrev(true);
