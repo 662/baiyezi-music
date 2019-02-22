@@ -1,44 +1,28 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import { WithStyles } from '@material-ui/core/styles/withStyles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import PlaylistStore from '../../stores/PlaylistStore';
+import Player from '../../components/Player';
 
-const styles = (theme: Theme) =>
-    createStyles({
-        player: {
-            width: '100%',
-            height: '48px',
-        },
-        audio: {
-            width: '100%',
-            height: '48px',
-            backgroundColor: 'rgb(241,243,244)',
-        },
-    });
+export default inject(({ playlistStore, playerStore }) => ({
+    src: playlistStore.src,
+    song: playlistStore.current.name,
+    singer: playlistStore.current.singer.map(s => s.name).join('&'),
 
-interface PlayerProps extends WithStyles<typeof styles> {
-    playlistStore: PlaylistStore;
-}
+    paused: playerStore.paused,
+    muted: playerStore.muted,
+    volume: playerStore.volume,
+    duration: playerStore.duration,
+    currentTime: playerStore.currentTime,
+    mode: playerStore.mode,
+    whoChangedCurrentTime: playerStore.whoChangedCurrentTime,
 
-@observer
-class Player extends React.Component<PlayerProps> {
-    handleEnd = () => {
-        this.props.playlistStore.playNext();
-    };
+    playNext: playlistStore.playNext.bind(playlistStore),
+    playRandom: playlistStore.playRandom.bind(playlistStore),
+    playPrev: playlistStore.playPrev.bind(playlistStore),
 
-    render() {
-        const { classes, playlistStore } = this.props;
-        const { src } = playlistStore;
-        return (
-            <div className={classes.player}>
-                <audio className={classes.audio} src={src} controls={true} onEnded={this.handleEnd} autoPlay={true}>
-                    您的浏览器不支持 video 标签。
-                </audio>
-            </div>
-        );
-    }
-}
-
-export default inject(({ playlistStore }) => ({ playlistStore }))(withStyles(styles)(Player));
+    changePaused: playerStore.changePaused.bind(playerStore),
+    changeMuted: playerStore.changeMuted.bind(playerStore),
+    changeVolume: playerStore.changeVolume.bind(playerStore),
+    changeMode: playerStore.changeMode.bind(playerStore),
+    changeDuration: playerStore.changeDuration.bind(playerStore),
+    changeCurrentTime: playerStore.changeCurrentTime.bind(playerStore),
+}))(Player);

@@ -11,25 +11,32 @@ import { ISonglist, ISong } from '../../interface';
 
 interface SonglistProps extends RouteChildrenProps<{ title: string }> {
     songlists: ISonglist[];
-    onPlayAll(songs: ISong[]): void;
-    onAddToPlaylist(songs: ISong[]): void;
+    onPlayAll(songs: ISong[], title: string): void;
+    onAddToPlaylist(songs: ISong[], title: string): void;
     onRemove(title: string, driver: string, id: string | number): void;
 }
 
 @observer
 class Songlist extends React.Component<SonglistProps> {
+    getSonglistTitle = () => {
+        const { match } = this.props;
+        return match!.params.title;
+    };
     getSonglist = () => {
-        const { songlists, match } = this.props;
-        const songlist = songlists.find(item => item.title === match!.params.title)!;
+        const { songlists } = this.props;
+        const title = this.getSonglistTitle();
+        const songlist = songlists.find(item => item.title === title)!;
         return songlist;
     };
     handlePlayAllClick: React.MouseEventHandler = () => {
+        const title = this.getSonglistTitle();
         const songlist = this.getSonglist();
-        this.props.onPlayAll(songlist.items);
+        this.props.onPlayAll(songlist.items, title);
     };
     handleAddToPlaylistClick: React.MouseEventHandler = () => {
+        const title = this.getSonglistTitle();
         const songlist = this.getSonglist();
-        this.props.onAddToPlaylist(songlist.items);
+        this.props.onAddToPlaylist(songlist.items, title);
     };
 
     render() {
@@ -73,9 +80,15 @@ class Songlist extends React.Component<SonglistProps> {
     }
 }
 
-export default inject(({ songlistStore, playlistStore }) => ({
+export default inject(({ songlistStore, playlistStore, snackbarStore }) => ({
     songlists: songlistStore.songlists,
-    onPlayAll: (songs: ISong[]) => playlistStore.append(songs, true),
-    onAddToPlaylist: (songs: ISong[]) => playlistStore.append(songs, false),
+    onPlayAll: (songs: ISong[], title: string) => {
+        playlistStore.append(songs, true);
+        snackbarStore.success(`${title} 已添加到 {播放列表}`);
+    },
+    onAddToPlaylist: (songs: ISong[], title: string) => {
+        playlistStore.append(songs, false);
+        snackbarStore.success(`${title} 已添加到 {播放列表}`);
+    },
     onRemove: (title: string, driver: string, id: string | number) => songlistStore.popSonglist(title, driver, id),
 }))(Songlist);

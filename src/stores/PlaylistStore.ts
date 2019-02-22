@@ -26,6 +26,13 @@ export default class PlaylistStore {
     // 清单存储到storage的key
     storageKey = 'baiyezi-playlist';
 
+    modes: string[] = ['single', 'list', 'order', 'random'];
+    // 循环 模式
+    @observable modeIndex: number = 1;
+    @computed get mode() {
+        return this.modes[this.modeIndex];
+    }
+
     // 当前播放的歌曲
     @computed get current() {
         return this.songs[this.index];
@@ -76,7 +83,7 @@ export default class PlaylistStore {
         if (index === this.index) {
             this.fetchSrc();
         } else if (index < this.index) {
-            this.index++;
+            this.index--;
         }
     }
     // 播放某一首歌
@@ -86,10 +93,34 @@ export default class PlaylistStore {
     }
 
     @action
-    playNext() {
-        const maxIndex = this.songs.length - 1;
-        this.index = this.index < maxIndex ? this.index + 1 : 0;
+    playNext(loop: boolean = true) {
+        if (this.index < this.songs.length - 1) {
+            this.index = this.index + 1;
+            this.fetchSrc();
+        } else if (loop) {
+            this.index = 0;
+            this.fetchSrc();
+        }
+    }
+    @action
+    playPrev(loop: boolean = true) {
+        if (this.index > 0) {
+            this.index = this.index - 1;
+            this.fetchSrc();
+        } else if (loop) {
+            this.index = this.songs.length - 1;
+            this.fetchSrc();
+        }
+    }
+    @action
+    playRandom() {
+        this.index = Math.round(Math.random() * (this.songs.length - 1));
         this.fetchSrc();
+    }
+
+    @action
+    changeMode() {
+        this.modeIndex = this.modeIndex === this.modes.length - 1 ? 0 : this.modeIndex + 1;
     }
 
     fetchSrc = flow(function*(this: PlaylistStore) {

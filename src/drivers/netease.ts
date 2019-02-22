@@ -1,4 +1,5 @@
 import { ISong, IDriver, ISearchResult } from '../interface';
+// const cors = `https://cors-anywhere.herokuapp.com/`
 
 export default class Netease implements IDriver {
     static title = '网易';
