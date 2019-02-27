@@ -16,6 +16,11 @@ const styles = (theme: Theme) =>
             cursor: 'default',
             borderBottom: 'dashed 1px #ddd',
         },
+        driver: {
+            marginLeft: '8px',
+            color: '#999',
+            fontSize: '12px',
+        },
     });
 
 interface SongItemProps extends WithStyles<typeof styles> {
@@ -26,6 +31,7 @@ interface SongItemProps extends WithStyles<typeof styles> {
     onAddToPlaylist(song: ISong): void;
     onAddToSonglist(title: string, song: ISong): void;
     extendAction?: React.ReactNode;
+    hideDriver?: boolean;
 }
 
 interface SongItemState {
@@ -57,7 +63,7 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
     };
 
     render() {
-        const { song, classes, songlists, extendAction, showPlaylistOnMenu } = this.props;
+        const { song, classes, songlists, extendAction, showPlaylistOnMenu, hideDriver } = this.props;
         const { menu } = this.state;
 
         return (
@@ -73,6 +79,7 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
                     primary={
                         <Typography variant="inherit" noWrap>
                             {song.name}
+                            {!hideDriver && <small className={classes.driver}>[{song.driver}]</small>}
                         </Typography>
                     }
                     secondary={<SongDetail song={song} />}

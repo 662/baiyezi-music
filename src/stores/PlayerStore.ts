@@ -40,7 +40,7 @@ export default class PlaylistStore {
     }
 
     save() {
-        const playlistJSON = JSON.stringify({
+        const playerJSON = JSON.stringify({
             paused: this.paused,
             muted: this.muted,
             volume: this.volume,
@@ -48,11 +48,11 @@ export default class PlaylistStore {
             currentTime: this.currentTime,
             modeIndex: this.modeIndex,
         });
-        localStorage.setItem(this.storageKey, playlistJSON);
+        localStorage.setItem(this.storageKey, playerJSON);
     }
     load() {
-        const playlistJSON = localStorage.getItem(this.storageKey) || '{}';
-        const saveData = JSON.parse(playlistJSON);
+        const playerJSON = localStorage.getItem(this.storageKey) || '{}';
+        const saveData = JSON.parse(playerJSON);
         this.paused = saveData.paused || this.paused;
         this.muted = saveData.muted || this.muted;
         this.volume = saveData.volume || this.volume;
@@ -74,6 +74,8 @@ export default class PlaylistStore {
         this.volume = volume;
         if (volume === 0) {
             this.muted = true;
+        } else {
+            this.muted = false;
         }
     }
     @action

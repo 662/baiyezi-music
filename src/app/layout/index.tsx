@@ -11,6 +11,9 @@ import Menu from '../sider/Menu';
 
 const styles = (theme: Theme) =>
     createStyles({
+        wrapper: {
+            minWidth: '960px',
+        },
         main: {
             display: 'flex',
         },
@@ -26,6 +29,7 @@ const styles = (theme: Theme) =>
             bottom: 0,
             left: 0,
             width: '100%',
+            minWidth: '960px',
         },
     });
 
@@ -43,7 +47,7 @@ class Layout extends React.Component<LayoutProps> {
     render() {
         const { children, classes } = this.props;
         return (
-            <div>
+            <div className={classes.wrapper}>
                 <CssBaseline />
                 <div className={classes.main}>
                     <div className={classes.sidebar}>

@@ -2,10 +2,11 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import Player from '../../components/Player';
 
+const PlayerObservered = observer(Player);
 export default inject(({ playlistStore, playerStore }) => ({
     src: playlistStore.src,
-    song: playlistStore.current.name,
-    singer: playlistStore.current.singer.map(s => s.name).join('&'),
+    song: playlistStore.current ? playlistStore.current.name : '',
+    singer: playlistStore.current ? playlistStore.current.singer.map(s => s.name).join('&') : '',
 
     paused: playerStore.paused,
     muted: playerStore.muted,
@@ -25,4 +26,4 @@ export default inject(({ playlistStore, playerStore }) => ({
     changeMode: playerStore.changeMode.bind(playerStore),
     changeDuration: playerStore.changeDuration.bind(playerStore),
     changeCurrentTime: playerStore.changeCurrentTime.bind(playerStore),
-}))(Player);
+}))(PlayerObservered);

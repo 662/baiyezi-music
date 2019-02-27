@@ -7,7 +7,7 @@ import { ISong } from '../../interface';
 const SongList = ({ songs }: { songs: ISong[] }) => (
     <List>
         {songs.map((song: ISong) => (
-            <SongItemInjected key={song.id + song.driver} song={song} />
+            <SongItemInjected hideDriver={true} key={song.id + song.driver} song={song} />
         ))}
     </List>
 );

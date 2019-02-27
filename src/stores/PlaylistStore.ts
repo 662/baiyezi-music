@@ -6,14 +6,9 @@ import { appendFile } from 'fs';
 export default class PlaylistStore {
     constructor(root: RootStore) {
         this.root = root;
-        const playlistJSON = localStorage.getItem(this.storageKey) || '[]';
-        this.songs = JSON.parse(playlistJSON);
+        this.load();
+        autorun(() => this.save());
         if (this.songs.length > 0) this.fetchSrc();
-
-        autorun(() => {
-            const playlistJSON = JSON.stringify(this.songs);
-            localStorage.setItem(this.storageKey, playlistJSON);
-        });
     }
 
     root: RootStore;
@@ -22,7 +17,7 @@ export default class PlaylistStore {
     // 当前播放的歌曲地址
     @observable src: string = '';
     // 当前播放的歌曲在歌单中的索引
-    index: number = 0;
+    @observable index: number = 0;
     // 清单存储到storage的key
     storageKey = 'baiyezi-playlist';
 
@@ -34,12 +29,28 @@ export default class PlaylistStore {
     }
 
     // 当前播放的歌曲
-    @computed get current() {
+    get current() {
         return this.songs[this.index];
     }
     // 当前播放歌曲的驱动
-    @computed get currentDriver() {
+    get currentDriver() {
         return this.root.driverStore.drivers.find(item => item.title === this.current.driver)!.instance;
+    }
+
+    save() {
+        const playlistJSON = JSON.stringify({
+            songs: this.songs,
+            src: this.src,
+            index: this.index,
+        });
+        localStorage.setItem(this.storageKey, playlistJSON);
+    }
+    load() {
+        const playlistJSON = localStorage.getItem(this.storageKey) || '{}';
+        const saveData = JSON.parse(playlistJSON);
+        this.songs = saveData.songs || this.songs;
+        this.src = saveData.src || this.src;
+        this.index = saveData.index || this.index;
     }
 
     // 添加一首歌到播放列表

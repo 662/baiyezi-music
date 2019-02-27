@@ -90,7 +90,6 @@ class Player extends React.Component<PlayerProps> {
         const audio = this.audio!;
         const props = this.props;
         audio.oncanplay = () => {
-            audio.play();
             props.changeDuration(audio.duration);
             this.durationTimer = setInterval(() => {
                 props.changeCurrentTime(audio.currentTime, 'audio');
@@ -106,7 +105,7 @@ class Player extends React.Component<PlayerProps> {
     initPlayerWithProps() {
         const audio = this.audio!;
         // 初始化 暂停状态
-        this.props.paused ? audio.pause() : audio.play();
+        // this.props.paused ? audio.pause() : audio.play();
         // 初始化 播放进度
         audio.currentTime = this.props.currentTime;
         // // 初始化 音量
