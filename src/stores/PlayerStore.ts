@@ -8,10 +8,8 @@ export default class PlayerStore {
     // 播放器设置存储到storage的key
     storageKey = 'baiyezi-player'
 
-    modes: string[] = ['single', 'list', 'order', 'random']
-
-    // 循环 模式
-    @observable modeIndex: number = 1
+    // 播放模式
+    @observable mode: 'single' | 'list' | 'order' | 'random' = 'list'
 
     // 暂停
     @observable paused: boolean = true
@@ -27,10 +25,6 @@ export default class PlayerStore {
 
     // 播放进度
     @observable currentTime: number = 0
-
-    @computed get mode() {
-        return this.modes[this.modeIndex]
-    }
 
     @observable src: string = ''
     @observable playlistIndex: number = 0
@@ -60,7 +54,7 @@ export default class PlayerStore {
             volume: this.volume,
             duration: this.duration,
             currentTime: this.currentTime,
-            modeIndex: this.modeIndex,
+            mode: this.mode,
             src: this.src,
             playlistIndex: this.playlistIndex,
         })
@@ -69,11 +63,12 @@ export default class PlayerStore {
     load() {
         const playerJSON = localStorage.getItem(this.storageKey) || '{}'
         const saveData = JSON.parse(playerJSON)
+        console.log(saveData)
         this.muted = saveData.muted || this.muted
         this.volume = saveData.volume || this.volume
         this.duration = saveData.duration || this.duration
         this.currentTime = saveData.currentTime || this.currentTime
-        this.modeIndex = saveData.modeIndex || this.modeIndex
+        this.mode = saveData.mode || this.mode
         this.playlistIndex = saveData.playlistIndex || this.playlistIndex
         this.src = saveData.src || this.src
     }
@@ -92,8 +87,8 @@ export default class PlayerStore {
         this.muted = volume === 0
     }
     @action
-    changeMode() {
-        this.modeIndex = this.modeIndex === this.modes.length - 1 ? 0 : this.modeIndex + 1
+    changeMode(mode: 'single' | 'list' | 'order' | 'random') {
+        this.mode = mode
     }
     @action
     changeDuration(duration: number) {

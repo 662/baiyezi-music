@@ -71,11 +71,11 @@ interface PlayerProps extends WithStyles<typeof styles> {
 
     onPlayPrev(): void
     onPlayNext(): void
+    onModeChange(mode: 'single' | 'list' | 'order' | 'random'): void
 
     changePaused(paused: boolean): void
     changeMuted(): void
     changeVolume(volume: number): void
-    changeMode(): void
     changeDuration(duration: number): void
     changeCurrentTime(currentTime: number): void
 }
@@ -85,9 +85,10 @@ class Player extends React.Component<PlayerProps> {
     audioReadied: boolean = false
     progressTimeout?: NodeJS.Timeout
     mounted: boolean = false
-    whoChangedCurrentTime: 'player' | 'audio' = 'player'
-    whoChangedPaused: 'player' | 'audio' = 'player'
+    whoChangedCurrentTime: 'player' | 'audio' = 'audio'
+    whoChangedPaused: 'player' | 'audio' = 'audio'
     progressSliderDragging: boolean = false
+    modes: string[] = ['single', 'list', 'order', 'random']
 
     componentDidMount() {
         this.mounted = true
@@ -115,8 +116,8 @@ class Player extends React.Component<PlayerProps> {
             if (props.currentTime !== prevProps.currentTime && this.whoChangedCurrentTime === 'player' && !this.progressSliderDragging) {
                 audio.currentTime = props.currentTime
             }
-            this.whoChangedPaused = 'player'
-            this.whoChangedCurrentTime = 'player'
+            this.whoChangedPaused = 'audio'
+            this.whoChangedCurrentTime = 'audio'
         }
     }
     initAudio = () => {
@@ -136,37 +137,51 @@ class Player extends React.Component<PlayerProps> {
         this.progressTimeout = setTimeout(this.progress, 200)
     }
 
-    handleAudioonCanPlayThrough = () => {
+    handlePausedOrPlayButtonClick = () => {
+        this.props.changePaused(!this.props.paused)
+        this.whoChangedPaused = 'player'
+    }
+    handleAudioCanPlayThrough = () => {
         this.audioReadied = true
         if (!this.mounted) return
         // 获取当前音频的长度
         this.props.changeDuration(this.audio!.duration)
     }
-
-    handleAudioOnPlay = () => {
+    handleAudioPlay = () => {
         this.props.changePaused(false)
         this.whoChangedPaused = 'audio'
     }
-    handlePausedOrPlayOnClick = () => {
-        this.props.changePaused(!this.props.paused)
-        this.whoChangedPaused = 'player'
-    }
-    handleAudioOnEnd = () => this.props.onPlayNext()
-    handleDurationSliderOnChange = (e: React.ChangeEvent<{}>, v: number) => {
+    handleAudioEnd = () => this.props.onPlayNext()
+    handleDurationSliderChange = (e: React.ChangeEvent<{}>, v: number) => {
         this.props.changeCurrentTime(v)
         this.whoChangedCurrentTime = 'player'
     }
-    handleDurationSlideronDragStart = () => {
+    handleDurationSliderDragStart = () => {
         this.progressSliderDragging = true
     }
-    handleDurationSlideronDragEnd = () => {
+    handleDurationSliderDragEnd = () => {
         this.progressSliderDragging = false
+        this.audio!.currentTime = this.props.currentTime
     }
-
+    handleNextButtonClick = () => {
+        this.props.onPlayNext()
+        this.whoChangedCurrentTime = 'player'
+    }
+    handlePrevButtonClick = () => {
+        this.props.onPlayPrev()
+        this.whoChangedCurrentTime = 'player'
+    }
+    handleModeButtonClick = () => {
+        const currentModeIndex = this.modes.indexOf(this.props.mode)
+        const nextModeIndex = currentModeIndex === this.modes.length - 1 ? 0 : currentModeIndex + 1
+        const nextMode = this.modes[nextModeIndex] as 'single' | 'list' | 'order' | 'random'
+        this.props.onModeChange(nextMode)
+    }
     render() {
+        console.log(this.props.mode)
         const { classes } = this.props
         const { paused, muted, volume, duration, currentTime, mode } = this.props
-        const { changeMuted, changeVolume, changeMode, onPlayPrev, onPlayNext } = this.props
+        const { changeMuted, changeVolume } = this.props
         const { src, song, singer } = this.props
         const ModeIcon = ModeIcons[mode]
         return (
@@ -179,9 +194,9 @@ class Player extends React.Component<PlayerProps> {
                             ref={audio => (this.audio = audio)}
                             className={classes.audio}
                             src={src}
-                            onPlay={this.handleAudioOnPlay}
-                            onEnded={this.handleAudioOnEnd}
-                            onCanPlayThrough={this.handleAudioonCanPlayThrough}
+                            onPlay={this.handleAudioPlay}
+                            onEnded={this.handleAudioEnd}
+                            onCanPlayThrough={this.handleAudioCanPlayThrough}
                         >
                             您的浏览器不支持 video 标签。
                         </audio>
@@ -189,11 +204,11 @@ class Player extends React.Component<PlayerProps> {
                 </div>
                 <div className={classes.player}>
                     <div className={classes.mainControl}>
-                        <IconButton onClick={onPlayPrev}>
+                        <IconButton onClick={this.handlePrevButtonClick}>
                             <SkipPrevious fontSize="large" />
                         </IconButton>
-                        <IconButton onClick={this.handlePausedOrPlayOnClick}>{paused ? <PlayArrow fontSize="large" /> : <Pause fontSize="large" />}</IconButton>
-                        <IconButton onClick={onPlayNext}>
+                        <IconButton onClick={this.handlePausedOrPlayButtonClick}>{paused ? <PlayArrow fontSize="large" /> : <Pause fontSize="large" />}</IconButton>
+                        <IconButton onClick={this.handleNextButtonClick}>
                             <SkipNext fontSize="large" />
                         </IconButton>
                     </div>
@@ -212,9 +227,9 @@ class Player extends React.Component<PlayerProps> {
                                 min={0}
                                 max={duration}
                                 value={currentTime}
-                                onChange={this.handleDurationSliderOnChange}
-                                onDragStart={this.handleDurationSlideronDragStart}
-                                onDragEnd={this.handleDurationSlideronDragEnd}
+                                onChange={this.handleDurationSliderChange}
+                                onDragStart={this.handleDurationSliderDragStart}
+                                onDragEnd={this.handleDurationSliderDragEnd}
                             />
                         </div>
                     </div>
@@ -222,7 +237,7 @@ class Player extends React.Component<PlayerProps> {
                         <IconButton>
                             <SaveAlt />
                         </IconButton>
-                        <IconButton onClick={changeMode}>
+                        <IconButton onClick={this.handleModeButtonClick}>
                             <ModeIcon />
                         </IconButton>
                     </div>
