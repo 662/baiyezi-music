@@ -3,6 +3,7 @@
     "trailingComma": "es5",
     "printWidth": 200,
     "endOfLine": "lf",
+    "Semicolons": false,
     "overrides": [
         {
             "files": ".prettierrc",
