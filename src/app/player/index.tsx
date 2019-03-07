@@ -1,8 +1,8 @@
-import React from 'react';
-import { inject, observer } from 'mobx-react';
-import Player from '../../components/Player';
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import Player from '../../components/Player'
 
-const PlayerObservered = observer(Player);
+const PlayerObservered = observer(Player)
 export default inject(({ playerStore }) => ({
     src: playerStore.src,
     song: playerStore.song ? playerStore.song.name : '',
@@ -24,4 +24,4 @@ export default inject(({ playerStore }) => ({
     changeMode: playerStore.changeMode.bind(playerStore),
     changeDuration: playerStore.changeDuration.bind(playerStore),
     changeCurrentTime: playerStore.changeCurrentTime.bind(playerStore),
-}))(PlayerObservered);
+}))(PlayerObservered)

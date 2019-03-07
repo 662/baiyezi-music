@@ -1,6 +1,6 @@
-import React from 'react';
-import { withStyles, createStyles } from '@material-ui/core';
-import { WithStyles, Theme } from '@material-ui/core';
+import React from 'react'
+import { withStyles, createStyles } from '@material-ui/core'
+import { WithStyles, Theme } from '@material-ui/core'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -19,12 +19,12 @@ const styles = (theme: Theme) =>
                 marginRight: '8px',
             },
         },
-    });
+    })
 
 interface PanelProps extends WithStyles<typeof styles> {
-    title: string | React.ReactNode;
-    actions?: React.ReactNode;
-    children: React.ReactNode;
+    title: string | React.ReactNode
+    actions?: React.ReactNode
+    children: React.ReactNode
 }
 
 const Panel = ({ title, children, classes, actions }: PanelProps) => (
@@ -35,6 +35,6 @@ const Panel = ({ title, children, classes, actions }: PanelProps) => (
         </div>
         <div>{children}</div>
     </div>
-);
+)
 
-export default withStyles(styles)(Panel);
+export default withStyles(styles)(Panel)

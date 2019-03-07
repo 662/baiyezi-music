@@ -1,7 +1,7 @@
-import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Search, PlaylistPlay } from '@material-ui/icons';
-import history from '../../history';
+import React from 'react'
+import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { Search, PlaylistPlay } from '@material-ui/icons'
+import history from '../../history'
 
 const Menu = () => {
     return (
@@ -19,7 +19,7 @@ const Menu = () => {
                 <ListItemText primary="播放列表" />
             </ListItem>
         </List>
-    );
-};
+    )
+}
 
-export default Menu;
+export default Menu

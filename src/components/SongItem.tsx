@@ -1,14 +1,14 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react'
 
-import { Typography, Divider, ListItemIcon, ListItem, ListItemText, ListItemSecondaryAction, IconButton, MenuItem, Fab, Menu } from '@material-ui/core';
-import { withStyles, createStyles } from '@material-ui/core';
-import { WithStyles, Theme } from '@material-ui/core';
-import { Add, PlayArrow } from '@material-ui/icons';
+import { Typography, Divider, ListItemIcon, ListItem, ListItemText, ListItemSecondaryAction, IconButton, MenuItem, Fab, Menu } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core'
+import { WithStyles, Theme } from '@material-ui/core'
+import { Add, PlayArrow } from '@material-ui/icons'
 
-import DelayTooltip from './DelayTooltip';
-import SongDetail from './SongDetail';
+import DelayTooltip from './DelayTooltip'
+import SongDetail from './SongDetail'
 
-import { ISong, ISonglist } from '../interface';
+import { ISong, ISonglist } from '../interface'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -21,50 +21,50 @@ const styles = (theme: Theme) =>
             color: '#999',
             fontSize: '12px',
         },
-    });
+    })
 
 interface SongItemProps extends WithStyles<typeof styles> {
-    showPlaylistOnMenu: boolean;
-    song: ISong;
-    songlists: ISonglist[];
-    onPlay(song: ISong): void;
-    onAddToPlaylist(song: ISong): void;
-    onAddToSonglist(title: string, song: ISong): void;
-    extendAction?: React.ReactNode;
-    hideDriver?: boolean;
+    showPlaylistOnMenu: boolean
+    song: ISong
+    songlists: ISonglist[]
+    onPlay(song: ISong): void
+    onAddToPlaylist(song: ISong): void
+    onAddToSonglist(title: string, song: ISong): void
+    extendAction?: React.ReactNode
+    hideDriver?: boolean
 }
 
 interface SongItemState {
-    menu: boolean;
+    menu: boolean
 }
 
 class SongItem extends React.Component<SongItemProps, SongItemState> {
     state = {
         menu: false,
-    };
-    anchorEl: any = null;
+    }
+    anchorEl: any = null
 
-    handleAdd: MouseEventHandler = e => this.setState({ menu: true });
-    handleCloseMenu = () => this.setState({ menu: false });
+    handleAdd: MouseEventHandler = e => this.setState({ menu: true })
+    handleCloseMenu = () => this.setState({ menu: false })
 
     handlePlay: MouseEventHandler = e => {
-        const { onPlay, song } = this.props;
-        onPlay(song);
-    };
+        const { onPlay, song } = this.props
+        onPlay(song)
+    }
     handleAddToPlaylist: MouseEventHandler = e => {
-        const { onAddToPlaylist, song } = this.props;
-        onAddToPlaylist(song);
-        this.handleCloseMenu();
-    };
+        const { onAddToPlaylist, song } = this.props
+        onAddToPlaylist(song)
+        this.handleCloseMenu()
+    }
     handleAddToSonglist = (title: string) => {
-        const { onAddToSonglist, song } = this.props;
-        onAddToSonglist(title, song);
-        this.handleCloseMenu();
-    };
+        const { onAddToSonglist, song } = this.props
+        onAddToSonglist(title, song)
+        this.handleCloseMenu()
+    }
 
     render() {
-        const { song, classes, songlists, extendAction, showPlaylistOnMenu, hideDriver } = this.props;
-        const { menu } = this.state;
+        const { song, classes, songlists, extendAction, showPlaylistOnMenu, hideDriver } = this.props
+        const { menu } = this.state
 
         return (
             <ListItem ContainerProps={{ className: classes.listitem }}>
@@ -100,8 +100,8 @@ class SongItem extends React.Component<SongItemProps, SongItemState> {
                     {extendAction}
                 </ListItemSecondaryAction>
             </ListItem>
-        );
+        )
     }
 }
 
-export default withStyles(styles)(SongItem);
+export default withStyles(styles)(SongItem)

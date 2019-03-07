@@ -1,16 +1,16 @@
-import React from 'react';
-import { Router, Route, Redirect, Switch } from 'react-router-dom';
-import { Provider } from 'mobx-react';
+import React from 'react'
+import { Router, Route, Redirect, Switch } from 'react-router-dom'
+import { Provider } from 'mobx-react'
 
-import Layout from './layout';
-import Search from './search';
-import Songlist from './songlist';
-import Playlist from './playlist';
+import Layout from './layout'
+import Search from './search'
+import Songlist from './songlist'
+import Playlist from './playlist'
 
-import history from '../../src/history';
-import RootStore from '../stores/RootStore';
+import history from '../../src/history'
+import RootStore from '../stores/RootStore'
 
-const store = new RootStore();
+const store = new RootStore()
 
 export default function index() {
     return (
@@ -26,5 +26,5 @@ export default function index() {
                 </Layout>
             </Router>
         </Provider>
-    );
+    )
 }

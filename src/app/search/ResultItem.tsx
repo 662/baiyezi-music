@@ -1,9 +1,9 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { CircularProgress, withStyles, WithStyles, createStyles } from '@material-ui/core';
+import React from 'react'
+import { observer } from 'mobx-react'
+import { CircularProgress, withStyles, WithStyles, createStyles } from '@material-ui/core'
 
-import SongList from './SongList';
-import { SearchResult } from '../../stores/SearchStore';
+import SongList from './SongList'
+import { SearchResult } from '../../stores/SearchStore'
 
 const styles = createStyles({
     resultItem: {
@@ -13,10 +13,10 @@ const styles = createStyles({
     header: {
         padding: '0 16px',
     },
-});
+})
 
 interface ResultItemProps extends WithStyles<typeof styles> {
-    result: SearchResult;
+    result: SearchResult
 }
 
 const ResultItem = observer(({ result, classes }: ResultItemProps) => (
@@ -27,6 +27,6 @@ const ResultItem = observer(({ result, classes }: ResultItemProps) => (
         {result.searching && <CircularProgress />}
         <SongList songs={result.songs} />
     </div>
-));
+))
 
-export default withStyles(styles)(ResultItem);
+export default withStyles(styles)(ResultItem)

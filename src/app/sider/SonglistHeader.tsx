@@ -1,11 +1,11 @@
-import React, { MouseEventHandler } from 'react';
-import { ListSubheader, IconButton, ListItemSecondaryAction } from '@material-ui/core';
+import React, { MouseEventHandler } from 'react'
+import { ListSubheader, IconButton, ListItemSecondaryAction } from '@material-ui/core'
 
-import DelayTooltip from '../../components/DelayTooltip';
-import { Add } from '@material-ui/icons';
+import DelayTooltip from '../../components/DelayTooltip'
+import { Add } from '@material-ui/icons'
 
 interface SonglistHeaderProps {
-    onAdd: MouseEventHandler;
+    onAdd: MouseEventHandler
 }
 
 const SonglistHeader = ({ onAdd }: SonglistHeaderProps) => (
@@ -19,6 +19,6 @@ const SonglistHeader = ({ onAdd }: SonglistHeaderProps) => (
             </DelayTooltip>
         </ListItemSecondaryAction>
     </ListSubheader>
-);
+)
 
-export default SonglistHeader;
+export default SonglistHeader

@@ -1,29 +1,29 @@
-import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react';
-import { ListItem, Input, IconButton } from '@material-ui/core';
-import { Cancel, Done } from '@material-ui/icons';
-import DelayTooltip from '../../components/DelayTooltip';
+import React, { ChangeEventHandler, FormEventHandler, MouseEventHandler } from 'react'
+import { ListItem, Input, IconButton } from '@material-ui/core'
+import { Cancel, Done } from '@material-ui/icons'
+import DelayTooltip from '../../components/DelayTooltip'
 
 interface SonglistFiledProps {
-    onHide(): void;
-    onDone(v: string): void;
+    onHide(): void
+    onDone(v: string): void
 }
 
 class SonglistFiled extends React.Component<SonglistFiledProps> {
     state = {
         value: '',
-    };
+    }
 
     done = () => {
-        this.props.onDone(this.state.value);
-        this.props.onHide();
-    };
+        this.props.onDone(this.state.value)
+        this.props.onHide()
+    }
     handleSubmit: FormEventHandler<HTMLFormElement> = e => {
-        e.preventDefault();
-        this.done();
-    };
-    handleInputChange: ChangeEventHandler<HTMLInputElement> = e => this.setState({ value: e.target.value });
-    handleDoneClick: MouseEventHandler = e => this.done();
-    handleCancelClick: MouseEventHandler = e => this.props.onHide();
+        e.preventDefault()
+        this.done()
+    }
+    handleInputChange: ChangeEventHandler<HTMLInputElement> = e => this.setState({ value: e.target.value })
+    handleDoneClick: MouseEventHandler = e => this.done()
+    handleCancelClick: MouseEventHandler = e => this.props.onHide()
 
     render() {
         return (
@@ -42,8 +42,8 @@ class SonglistFiled extends React.Component<SonglistFiledProps> {
                     </DelayTooltip>
                 </ListItem>
             </form>
-        );
+        )
     }
 }
 
-export default SonglistFiled;
+export default SonglistFiled

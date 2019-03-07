@@ -1,13 +1,13 @@
-import React from 'react';
-import { inject } from 'mobx-react';
-import { CssBaseline } from '@material-ui/core';
-import { withStyles, createStyles } from '@material-ui/core';
-import { WithStyles, Theme } from '@material-ui/core';
-import Sider from '../sider';
-import Player from '../player';
-import { SnackbarInjected } from '../injected-components';
-import SnackbarStore from '../../stores/SnackbarStore';
-import Menu from '../sider/Menu';
+import React from 'react'
+import { inject } from 'mobx-react'
+import { CssBaseline } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core'
+import { WithStyles, Theme } from '@material-ui/core'
+import Sider from '../sider'
+import Player from '../player'
+import { SnackbarInjected } from '../injected-components'
+import SnackbarStore from '../../stores/SnackbarStore'
+import Menu from '../sider/Menu'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -31,10 +31,10 @@ const styles = (theme: Theme) =>
             width: '100%',
             minWidth: '960px',
         },
-    });
+    })
 
 interface LayoutProps extends WithStyles<typeof styles> {
-    children: React.ReactChild | React.ReactChild[];
+    children: React.ReactChild | React.ReactChild[]
     // snackbarStore: SnackbarStore;
 }
 class Layout extends React.Component<LayoutProps> {
@@ -45,7 +45,7 @@ class Layout extends React.Component<LayoutProps> {
     //     };
     // }
     render() {
-        const { children, classes } = this.props;
+        const { children, classes } = this.props
         return (
             <div className={classes.wrapper}>
                 <CssBaseline />
@@ -60,10 +60,10 @@ class Layout extends React.Component<LayoutProps> {
                 </div>
                 <SnackbarInjected />
             </div>
-        );
+        )
     }
 }
 
-export default withStyles(styles)(Layout);
+export default withStyles(styles)(Layout)
 // const LayoutStyled = withStyles(styles)(Layout);
 // export default inject(({ snackbarStore }) => ({ snackbarStore }))(LayoutStyled);

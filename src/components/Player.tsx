@@ -1,10 +1,10 @@
-import React from 'react';
-import { Fab, IconButton } from '@material-ui/core';
-import { Slider } from '@material-ui/lab';
-import { SkipNext, SkipPrevious, PlayArrow, Pause, VolumeUp, VolumeOff, SaveAlt, Repeat, RepeatOne, List, Shuffle } from '@material-ui/icons';
-import { withStyles, createStyles } from '@material-ui/core';
-import { WithStyles, Theme } from '@material-ui/core';
-import Duration from './Duration';
+import React from 'react'
+import { Fab, IconButton } from '@material-ui/core'
+import { Slider } from '@material-ui/lab'
+import { SkipNext, SkipPrevious, PlayArrow, Pause, VolumeUp, VolumeOff, SaveAlt, Repeat, RepeatOne, List, Shuffle } from '@material-ui/icons'
+import { withStyles, createStyles } from '@material-ui/core'
+import { WithStyles, Theme } from '@material-ui/core'
+import Duration from './Duration'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -46,129 +46,129 @@ const styles = (theme: Theme) =>
         mainSliderWrapper: {
             flex: 1,
         },
-    });
+    })
 
 const ModeIcons: {
-    [key: string]: any;
+    [key: string]: any
 } = {
     single: RepeatOne,
     list: Repeat,
     order: List,
     random: Shuffle,
-};
+}
 
 interface PlayerProps extends WithStyles<typeof styles> {
-    src: string;
-    song: string;
-    singer: string;
+    src: string
+    song: string
+    singer: string
 
-    mode: 'single' | 'list' | 'order' | 'random';
-    paused: boolean;
-    muted: boolean;
-    volume: number;
-    duration: number;
-    currentTime: number;
+    mode: 'single' | 'list' | 'order' | 'random'
+    paused: boolean
+    muted: boolean
+    volume: number
+    duration: number
+    currentTime: number
 
-    onPlayPrev(): void;
-    onPlayNext(): void;
+    onPlayPrev(): void
+    onPlayNext(): void
 
-    changePaused(paused: boolean): void;
-    changeMuted(): void;
-    changeVolume(volume: number): void;
-    changeMode(): void;
-    changeDuration(duration: number): void;
-    changeCurrentTime(currentTime: number): void;
+    changePaused(paused: boolean): void
+    changeMuted(): void
+    changeVolume(volume: number): void
+    changeMode(): void
+    changeDuration(duration: number): void
+    changeCurrentTime(currentTime: number): void
 }
 
 class Player extends React.Component<PlayerProps> {
-    audio: HTMLAudioElement | null = null;
-    audioReadied: boolean = false;
-    progressTimeout?: NodeJS.Timeout;
-    mounted: boolean = false;
-    whoChangedCurrentTime: 'player' | 'audio' = 'player';
-    whoChangedPaused: 'player' | 'audio' = 'player';
-    progressSliderDragging: boolean = false;
+    audio: HTMLAudioElement | null = null
+    audioReadied: boolean = false
+    progressTimeout?: NodeJS.Timeout
+    mounted: boolean = false
+    whoChangedCurrentTime: 'player' | 'audio' = 'player'
+    whoChangedPaused: 'player' | 'audio' = 'player'
+    progressSliderDragging: boolean = false
 
     componentDidMount() {
-        this.mounted = true;
-        this.initAudio();
-        this.progress();
+        this.mounted = true
+        this.initAudio()
+        this.progress()
     }
 
     componentWillUnmount() {
-        this.progressTimeout && clearInterval(this.progressTimeout);
+        this.progressTimeout && clearInterval(this.progressTimeout)
     }
 
     componentDidUpdate(prevProps: PlayerProps, prevState: any, snapshot: any) {
-        const audio = this.audio;
-        const props = this.props;
+        const audio = this.audio
+        const props = this.props
         if (audio) {
             if (props.muted !== prevProps.muted) {
-                audio.volume = props.muted ? 0 : props.volume / 100;
+                audio.volume = props.muted ? 0 : props.volume / 100
             }
             if (props.paused !== prevProps.paused && this.whoChangedPaused === 'player') {
-                props.paused ? audio.pause() : audio.play();
+                props.paused ? audio.pause() : audio.play()
             }
             if (props.volume !== prevProps.volume) {
-                audio.volume = props.volume / 100;
+                audio.volume = props.volume / 100
             }
             if (props.currentTime !== prevProps.currentTime && this.whoChangedCurrentTime === 'player' && !this.progressSliderDragging) {
-                audio.currentTime = props.currentTime;
+                audio.currentTime = props.currentTime
             }
-            this.whoChangedPaused = 'player';
-            this.whoChangedCurrentTime = 'player';
+            this.whoChangedPaused = 'player'
+            this.whoChangedCurrentTime = 'player'
         }
     }
     initAudio = () => {
-        const audio = this.audio;
+        const audio = this.audio
         if (audio) {
             // 初始化 播放进度
-            audio.currentTime = this.props.currentTime;
+            audio.currentTime = this.props.currentTime
             // 初始化 音量
-            audio.volume = this.props.muted ? 0 : this.props.volume / 100;
+            audio.volume = this.props.muted ? 0 : this.props.volume / 100
         }
-    };
+    }
     progress = () => {
         if (this.props.src && this.audio && this.audioReadied && !this.progressSliderDragging) {
-            this.props.changeCurrentTime(this.audio.currentTime);
-            this.whoChangedCurrentTime = 'audio';
+            this.props.changeCurrentTime(this.audio.currentTime)
+            this.whoChangedCurrentTime = 'audio'
         }
-        this.progressTimeout = setTimeout(this.progress, 200);
-    };
+        this.progressTimeout = setTimeout(this.progress, 200)
+    }
 
     handleAudioonCanPlayThrough = () => {
-        this.audioReadied = true;
-        if (!this.mounted) return;
+        this.audioReadied = true
+        if (!this.mounted) return
         // 获取当前音频的长度
-        this.props.changeDuration(this.audio!.duration);
-    };
+        this.props.changeDuration(this.audio!.duration)
+    }
 
     handleAudioOnPlay = () => {
-        this.props.changePaused(false);
-        this.whoChangedPaused = 'audio';
-    };
+        this.props.changePaused(false)
+        this.whoChangedPaused = 'audio'
+    }
     handlePausedOrPlayOnClick = () => {
-        this.props.changePaused(!this.props.paused);
-        this.whoChangedPaused = 'player';
-    };
-    handleAudioOnEnd = () => this.props.onPlayNext();
+        this.props.changePaused(!this.props.paused)
+        this.whoChangedPaused = 'player'
+    }
+    handleAudioOnEnd = () => this.props.onPlayNext()
     handleDurationSliderOnChange = (e: React.ChangeEvent<{}>, v: number) => {
-        this.props.changeCurrentTime(v);
-        this.whoChangedCurrentTime = 'player';
-    };
+        this.props.changeCurrentTime(v)
+        this.whoChangedCurrentTime = 'player'
+    }
     handleDurationSlideronDragStart = () => {
-        this.progressSliderDragging = true;
-    };
+        this.progressSliderDragging = true
+    }
     handleDurationSlideronDragEnd = () => {
-        this.progressSliderDragging = false;
-    };
+        this.progressSliderDragging = false
+    }
 
     render() {
-        const { classes } = this.props;
-        const { paused, muted, volume, duration, currentTime, mode } = this.props;
-        const { changeMuted, changeVolume, changeMode, onPlayPrev, onPlayNext } = this.props;
-        const { src, song, singer } = this.props;
-        const ModeIcon = ModeIcons[mode];
+        const { classes } = this.props
+        const { paused, muted, volume, duration, currentTime, mode } = this.props
+        const { changeMuted, changeVolume, changeMode, onPlayPrev, onPlayNext } = this.props
+        const { src, song, singer } = this.props
+        const ModeIcon = ModeIcons[mode]
         return (
             <div className={classes.wrapper}>
                 <div className={classes.audioWrapper}>
@@ -234,8 +234,8 @@ class Player extends React.Component<PlayerProps> {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default withStyles(styles)(Player);
+export default withStyles(styles)(Player)

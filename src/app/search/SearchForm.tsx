@@ -1,8 +1,8 @@
-import React, { Component, FormEventHandler, ChangeEventHandler } from 'react';
-import { inject, observer } from 'mobx-react';
+import React, { Component, FormEventHandler, ChangeEventHandler } from 'react'
+import { inject, observer } from 'mobx-react'
 
-import { TextField, withStyles, WithStyles, createStyles, InputAdornment } from '@material-ui/core';
-import { Search } from '@material-ui/icons';
+import { TextField, withStyles, WithStyles, createStyles, InputAdornment } from '@material-ui/core'
+import { Search } from '@material-ui/icons'
 
 const styles = createStyles({
     search: {
@@ -12,25 +12,25 @@ const styles = createStyles({
     input: {
         width: '666px',
     },
-});
+})
 
 interface SearchFormProps extends WithStyles<typeof styles> {
-    value: string;
-    onSubmit: () => void;
-    onChange: (value: string) => void;
+    value: string
+    onSubmit: () => void
+    onChange: (value: string) => void
 }
 
 @observer
 class SearchForm extends Component<SearchFormProps, {}> {
     handleSubmit: FormEventHandler<HTMLFormElement> = e => {
-        e.preventDefault();
-        this.props.onSubmit();
-    };
+        e.preventDefault()
+        this.props.onSubmit()
+    }
     handleChange: ChangeEventHandler<HTMLInputElement> = e => {
-        this.props.onChange(e.target.value);
-    };
+        this.props.onChange(e.target.value)
+    }
     render() {
-        const { value, classes } = this.props;
+        const { value, classes } = this.props
         return (
             <div className={classes.search}>
                 <form onSubmit={this.handleSubmit}>
@@ -51,7 +51,7 @@ class SearchForm extends Component<SearchFormProps, {}> {
                     />
                 </form>
             </div>
-        );
+        )
     }
 }
 
@@ -59,4 +59,4 @@ export default inject(({ searchStore }) => ({
     value: searchStore.keywords,
     onSubmit: searchStore.search.bind(searchStore),
     onChange: searchStore.setKeyowrds.bind(searchStore),
-}))(withStyles(styles)(SearchForm));
+}))(withStyles(styles)(SearchForm))

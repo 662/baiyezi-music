@@ -1,9 +1,9 @@
-import React from 'react';
-import { observer } from 'mobx-react';
-import { withStyles, createStyles, Typography, WithStyles, Theme } from '@material-ui/core';
-import Duration from './Duration';
+import React from 'react'
+import { observer } from 'mobx-react'
+import { withStyles, createStyles, Typography, WithStyles, Theme } from '@material-ui/core'
+import Duration from './Duration'
 
-import { ISong } from '../interface';
+import { ISong } from '../interface'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -15,10 +15,10 @@ const styles = (theme: Theme) =>
                 marginLeft: '8px',
             },
         },
-    });
+    })
 
 interface SongDetailProps extends WithStyles<typeof styles> {
-    song: ISong;
+    song: ISong
 }
 
 const SongDetail = withStyles(styles)(
@@ -29,6 +29,6 @@ const SongDetail = withStyles(styles)(
             {song.album.name && <i title={`《${song.album.name}》`}>《{song.album.name}》</i>}
         </Typography>
     ))
-);
+)
 
-export default SongDetail;
+export default SongDetail

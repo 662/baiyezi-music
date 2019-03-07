@@ -1,8 +1,8 @@
-import React from 'react';
-import { ListItem, ListItemText, IconButton, createStyles, withStyles, WithStyles, ListItemSecondaryAction } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
-import DelayTooltip from '../../components/DelayTooltip';
-import history from '../../history';
+import React from 'react'
+import { ListItem, ListItemText, IconButton, createStyles, withStyles, WithStyles, ListItemSecondaryAction } from '@material-ui/core'
+import { Delete } from '@material-ui/icons'
+import DelayTooltip from '../../components/DelayTooltip'
+import history from '../../history'
 
 const styles = createStyles({
     songlistitem: {
@@ -13,19 +13,19 @@ const styles = createStyles({
             display: 'block',
         },
     },
-});
+})
 
 interface SonglistItemProps extends WithStyles<typeof styles> {
-    title: string;
-    onDelete(title: string): void;
+    title: string
+    onDelete(title: string): void
 }
 
 class SonglistItem extends React.Component<SonglistItemProps> {
-    handleClick = () => history.push(`/songlist/${this.props.title}`);
-    handleDelete = () => this.props.onDelete(this.props.title);
+    handleClick = () => history.push(`/songlist/${this.props.title}`)
+    handleDelete = () => this.props.onDelete(this.props.title)
 
     render() {
-        const { title, classes } = this.props;
+        const { title, classes } = this.props
         return (
             <ListItem button onClick={this.handleClick} ContainerProps={{ className: classes.songlistitem }}>
                 <ListItemText primary={title} />
@@ -37,8 +37,8 @@ class SonglistItem extends React.Component<SonglistItemProps> {
                     </DelayTooltip>
                 </ListItemSecondaryAction>
             </ListItem>
-        );
+        )
     }
 }
 
-export default withStyles(styles)(SonglistItem);
+export default withStyles(styles)(SonglistItem)

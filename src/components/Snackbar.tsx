@@ -1,11 +1,11 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Snackbar as MSnackbar, IconButton } from '@material-ui/core';
-import { createStyles, withStyles } from '@material-ui/core';
-import { Theme, WithStyles } from '@material-ui/core';
-import { Close, CheckCircle, Warning, Error as ErrorIcon, Info } from '@material-ui/icons';
-import { green, amber } from '@material-ui/core/colors';
-import { SnackbarVariant } from '../interface';
+import React from 'react'
+import classNames from 'classnames'
+import { Snackbar as MSnackbar, IconButton } from '@material-ui/core'
+import { createStyles, withStyles } from '@material-ui/core'
+import { Theme, WithStyles } from '@material-ui/core'
+import { Close, CheckCircle, Warning, Error as ErrorIcon, Info } from '@material-ui/icons'
+import { green, amber } from '@material-ui/core/colors'
+import { SnackbarVariant } from '../interface'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -32,26 +32,26 @@ const styles = (theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
         },
-    });
+    })
 
 const variantIcon = {
     success: CheckCircle,
     warning: Warning,
     error: ErrorIcon,
     info: Info,
-};
+}
 
 interface SnackbarProps extends WithStyles<typeof styles> {
-    key: number;
-    open: boolean;
-    message: string;
-    onClose(): void;
-    onExited(): void;
-    variant: SnackbarVariant;
+    key: number
+    open: boolean
+    message: string
+    onClose(): void
+    onExited(): void
+    variant: SnackbarVariant
 }
 
 const Snackbar = ({ key, open, message, onClose, variant, classes, onExited }: SnackbarProps) => {
-    const Icon = variantIcon[variant];
+    const Icon = variantIcon[variant]
     return (
         <MSnackbar
             key={key}
@@ -63,8 +63,8 @@ const Snackbar = ({ key, open, message, onClose, variant, classes, onExited }: S
             open={open}
             autoHideDuration={3000}
             onClose={(event, reason) => {
-                if (reason === 'clickaway') return;
-                onClose();
+                if (reason === 'clickaway') return
+                onClose()
             }}
             onExited={onExited}
             message={
@@ -79,7 +79,7 @@ const Snackbar = ({ key, open, message, onClose, variant, classes, onExited }: S
                 </IconButton>,
             ]}
         />
-    );
-};
+    )
+}
 
-export default withStyles(styles)(Snackbar);
+export default withStyles(styles)(Snackbar)

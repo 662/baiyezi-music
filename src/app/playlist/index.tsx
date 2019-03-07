@@ -1,23 +1,23 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { inject, observer } from 'mobx-react';
-import { List, IconButton, Button } from '@material-ui/core';
-import { Delete } from '@material-ui/icons';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { inject, observer } from 'mobx-react'
+import { List, IconButton, Button } from '@material-ui/core'
+import { Delete } from '@material-ui/icons'
 
-import Panel from '../../components/Panel';
-import { PlaylistItemInjected } from '../injected-components';
-import { ISong } from '../../interface';
+import Panel from '../../components/Panel'
+import { PlaylistItemInjected } from '../injected-components'
+import { ISong } from '../../interface'
 
 interface PlaylistProps {
-    songs: ISong[];
-    onRemove(index: number): void;
-    onClear(): void;
+    songs: ISong[]
+    onRemove(index: number): void
+    onClear(): void
 }
 
 @observer
 class Playlist extends React.Component<PlaylistProps> {
     render() {
-        const { songs, onRemove, onClear } = this.props;
+        const { songs, onRemove, onClear } = this.props
         return (
             <Panel
                 title="播放列表"
@@ -48,7 +48,7 @@ class Playlist extends React.Component<PlaylistProps> {
                     </List>
                 )}
             </Panel>
-        );
+        )
     }
 }
 
@@ -56,4 +56,4 @@ export default inject(({ playlistStore }) => ({
     songs: playlistStore.songs,
     onClear: () => playlistStore.clear(),
     onRemove: (index: number) => playlistStore.remove(index),
-}))(Playlist);
+}))(Playlist)
