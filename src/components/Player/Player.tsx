@@ -1,52 +1,9 @@
 import React from 'react'
-import { Fab, IconButton } from '@material-ui/core'
+import { IconButton } from '@material-ui/core'
 import { Slider } from '@material-ui/lab'
 import { SkipNext, SkipPrevious, PlayArrow, Pause, VolumeUp, VolumeOff, SaveAlt, Repeat, RepeatOne, List, Shuffle } from '@material-ui/icons'
-import { withStyles, createStyles } from '@material-ui/core'
-import { WithStyles, Theme } from '@material-ui/core'
-import Duration from './Duration'
-
-const styles = (theme: Theme) =>
-    createStyles({
-        wrapper: {
-            width: '100%',
-            backgroundColor: '#ccc',
-        },
-        audioWrapper: {
-            display: 'none',
-        },
-        player: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: '4px 16px',
-        },
-        audio: {
-            width: '100%',
-            height: '48px',
-            backgroundColor: 'rgb(241,243,244)',
-        },
-        mainControl: {},
-        info: {
-            padding: '16px',
-            flex: 1,
-        },
-        secondaryControl: {
-            display: 'flex',
-            alignItems: 'center',
-        },
-        volumeSlider: {
-            width: '100px',
-        },
-        mainSliderTitle: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '8px',
-            fontSize: '12px',
-        },
-        mainSliderWrapper: {
-            flex: 1,
-        },
-    })
+import Duration from '../Duration'
+import PlayerProps from './PlayerProps'
 
 const ModeIcons: {
     [key: string]: any
@@ -55,29 +12,6 @@ const ModeIcons: {
     list: Repeat,
     order: List,
     random: Shuffle,
-}
-
-interface PlayerProps extends WithStyles<typeof styles> {
-    src: string
-    song: string
-    singer: string
-
-    mode: 'single' | 'list' | 'order' | 'random'
-    paused: boolean
-    muted: boolean
-    volume: number
-    duration: number
-    currentTime: number
-
-    onPlayPrev(): void
-    onPlayNext(): void
-    onModeChange(mode: 'single' | 'list' | 'order' | 'random'): void
-
-    changePaused(paused: boolean): void
-    changeMuted(): void
-    changeVolume(volume: number): void
-    changeDuration(duration: number): void
-    changeCurrentTime(currentTime: number): void
 }
 
 class Player extends React.Component<PlayerProps> {
@@ -95,11 +29,9 @@ class Player extends React.Component<PlayerProps> {
         this.initAudio()
         this.progress()
     }
-
     componentWillUnmount() {
         this.progressTimeout && clearInterval(this.progressTimeout)
     }
-
     componentDidUpdate(prevProps: PlayerProps, prevState: any, snapshot: any) {
         const audio = this.audio
         const props = this.props
@@ -120,6 +52,7 @@ class Player extends React.Component<PlayerProps> {
             this.whoChangedCurrentTime = 'audio'
         }
     }
+
     initAudio = () => {
         const audio = this.audio
         if (audio) {
@@ -131,29 +64,33 @@ class Player extends React.Component<PlayerProps> {
     }
     progress = () => {
         if (this.props.src && this.audio && this.audioReadied && !this.progressSliderDragging) {
-            this.props.changeCurrentTime(this.audio.currentTime)
+            this.props.onCurrentTimeChange(this.audio.currentTime)
             this.whoChangedCurrentTime = 'audio'
         }
         this.progressTimeout = setTimeout(this.progress, 200)
     }
 
     handlePausedOrPlayButtonClick = () => {
-        this.props.changePaused(!this.props.paused)
+        this.props.onPausedChange(!this.props.paused)
         this.whoChangedPaused = 'player'
     }
     handleAudioCanPlayThrough = () => {
         this.audioReadied = true
         if (!this.mounted) return
         // 获取当前音频的长度
-        this.props.changeDuration(this.audio!.duration)
+        this.props.onDurationChange(this.audio!.duration)
     }
     handleAudioPlay = () => {
-        this.props.changePaused(false)
+        this.props.onPausedChange(false)
         this.whoChangedPaused = 'audio'
     }
-    handleAudioEnd = () => this.props.onPlayNext()
+    handleAudioEnd = () => {
+        this.props.onPlayNext()
+        this.props.onPausedChange(true)
+        this.whoChangedPaused = 'audio'
+    }
     handleDurationSliderChange = (e: React.ChangeEvent<{}>, v: number) => {
-        this.props.changeCurrentTime(v)
+        this.props.onCurrentTimeChange(v)
         this.whoChangedCurrentTime = 'player'
     }
     handleDurationSliderDragStart = () => {
@@ -177,11 +114,15 @@ class Player extends React.Component<PlayerProps> {
         const nextMode = this.modes[nextModeIndex] as 'single' | 'list' | 'order' | 'random'
         this.props.onModeChange(nextMode)
     }
+    handleVolumeSliderChange = (e: React.ChangeEvent<{}>, v: number) => {
+        this.props.onVolumeChange(v)
+    }
+    handleMutedButtionClick = () => {
+        this.props.onMutedChange(!this.props.muted)
+    }
     render() {
-        console.log(this.props.mode)
         const { classes } = this.props
         const { paused, muted, volume, duration, currentTime, mode } = this.props
-        const { changeMuted, changeVolume } = this.props
         const { src, song, singer } = this.props
         const ModeIcon = ModeIcons[mode]
         return (
@@ -242,9 +183,9 @@ class Player extends React.Component<PlayerProps> {
                         </IconButton>
                     </div>
                     <div className={classes.secondaryControl}>
-                        <IconButton onClick={changeMuted}>{muted ? <VolumeOff /> : <VolumeUp />}</IconButton>
+                        <IconButton onClick={this.handleMutedButtionClick}>{muted ? <VolumeOff /> : <VolumeUp />}</IconButton>
                         <div className={classes.volumeSlider}>
-                            <Slider min={0} max={100} value={volume} onChange={(e, v) => changeVolume(v)} />
+                            <Slider min={0} max={100} value={volume} onChange={this.handleVolumeSliderChange} />
                         </div>
                     </div>
                 </div>
@@ -253,4 +194,4 @@ class Player extends React.Component<PlayerProps> {
     }
 }
 
-export default withStyles(styles)(Player)
+export default Player

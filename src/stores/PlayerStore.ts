@@ -63,7 +63,6 @@ export default class PlayerStore {
     load() {
         const playerJSON = localStorage.getItem(this.storageKey) || '{}'
         const saveData = JSON.parse(playerJSON)
-        console.log(saveData)
         this.muted = saveData.muted || this.muted
         this.volume = saveData.volume || this.volume
         this.duration = saveData.duration || this.duration
@@ -78,8 +77,8 @@ export default class PlayerStore {
         this.paused = paused
     }
     @action
-    changeMuted() {
-        this.muted = !this.muted
+    changeMuted(muted: boolean) {
+        this.muted = muted
     }
     @action
     changeVolume(volume: number) {
@@ -102,7 +101,6 @@ export default class PlayerStore {
     @action
     playNext() {
         const playlistLength = this.root.playlistStore.songs.length
-        console.log(this.playlistIndex, playlistLength, this.mode)
         switch (this.mode) {
             case 'single':
                 this.currentTime = 0

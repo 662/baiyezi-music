@@ -1,13 +1,10 @@
 import React from 'react'
-import { inject } from 'mobx-react'
 import { CssBaseline } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core'
 import { WithStyles, Theme } from '@material-ui/core'
 import Sider from '../sider'
 import Player from '../player'
 import { SnackbarInjected } from '../injected-components'
-import SnackbarStore from '../../stores/SnackbarStore'
-import Menu from '../sider/Menu'
 
 const styles = (theme: Theme) =>
     createStyles({
@@ -20,7 +17,7 @@ const styles = (theme: Theme) =>
         sidebar: {
             position: 'fixed',
             width: '240px',
-            height: 'calc(100vh - 48px)',
+            height: 'calc(100vh - 67px)',
             borderRight: 'solid 1px #ddd',
         },
         content: { width: '100%', padding: '24px 24px 0 24px', marginLeft: '240px', marginBottom: '48px' },
@@ -35,15 +32,8 @@ const styles = (theme: Theme) =>
 
 interface LayoutProps extends WithStyles<typeof styles> {
     children: React.ReactChild | React.ReactChild[]
-    // snackbarStore: SnackbarStore;
 }
 class Layout extends React.Component<LayoutProps> {
-    // componentDidMount() {
-    //     window.onerror = (event: Event | string, source?: string, fileno?: number, columnNumber?: number, error?: Error) => {
-    //         this.props.snackbarStore.error(error!.message);
-    //         return true;
-    //     };
-    // }
     render() {
         const { children, classes } = this.props
         return (
@@ -65,5 +55,3 @@ class Layout extends React.Component<LayoutProps> {
 }
 
 export default withStyles(styles)(Layout)
-// const LayoutStyled = withStyles(styles)(Layout);
-// export default inject(({ snackbarStore }) => ({ snackbarStore }))(LayoutStyled);

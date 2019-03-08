@@ -17,6 +17,7 @@ class Songlist extends React.Component<SonglistProps> {
         add: false,
     }
     handleShowAdd: MouseEventHandler = e => this.setState({ add: true })
+    handleSync: MouseEventHandler = e => {}
     handleHideAdd = () => this.setState({ add: false })
     handleAddDone = (value: string) => this.props.songlistStore.createSonglist(value)
     handleDelete = (title: string) => {
@@ -29,7 +30,7 @@ class Songlist extends React.Component<SonglistProps> {
         const { songlists } = songlistStore
         const { add } = this.state
         return (
-            <List subheader={<SonglistHeader onAdd={this.handleShowAdd} />} component="nav">
+            <List subheader={<SonglistHeader onAdd={this.handleShowAdd} onSync={this.handleSync} />} component="nav">
                 {add && <SonglistFiled onDone={this.handleAddDone} onHide={this.handleHideAdd} />}
                 {songlists.map(item => (
                     <SonglistItem key={item.title} title={item.title} onDelete={this.handleDelete} />

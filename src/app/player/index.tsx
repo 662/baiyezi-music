@@ -17,11 +17,10 @@ export default inject(({ playerStore }) => ({
 
     onPlayPrev: playerStore.playPrev.bind(playerStore),
     onPlayNext: playerStore.playNext.bind(playerStore),
-
-    changePaused: playerStore.changePaused.bind(playerStore),
-    changeMuted: playerStore.changeMuted.bind(playerStore),
-    changeVolume: playerStore.changeVolume.bind(playerStore),
     onModeChange: playerStore.changeMode.bind(playerStore),
-    changeDuration: playerStore.changeDuration.bind(playerStore),
-    changeCurrentTime: playerStore.changeCurrentTime.bind(playerStore),
+    onPausedChange: playerStore.changePaused.bind(playerStore),
+    onMutedChange: playerStore.changeMuted.bind(playerStore),
+    onVolumeChange: playerStore.changeVolume.bind(playerStore),
+    onDurationChange: playerStore.changeDuration.bind(playerStore),
+    onCurrentTimeChange: playerStore.changeCurrentTime.bind(playerStore),
 }))(PlayerObservered)

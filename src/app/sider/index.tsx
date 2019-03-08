@@ -6,12 +6,15 @@ import Menu from './Menu'
 
 const styles = createStyles({
     sider: {},
+    divider: {
+        backgroundColor: '#ddd',
+    },
 })
 
 const Sider = ({ classes }: WithStyles<typeof styles>) => (
     <div className={classes.sider}>
         <Menu />
-        <Divider />
+        <Divider className={classes.divider} />
         <Songlist />
     </div>
 )
