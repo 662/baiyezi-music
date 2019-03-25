@@ -1,32 +1,37 @@
 import qs from 'query-string'
-import fetch from 'isomorphic-fetch'
 
 export default class OAuth {
+    clientID: string
+    clientSecret: string
+    redirectURL: string
+    scope: string
     url = {
         authorize: 'https://github.com/login/oauth/authorize',
         access_token: 'https://github.com/login/oauth/access_token',
         cross_origin: 'https://cors-anywhere.herokuapp.com',
     }
 
-    constructor({ client_id, client_secret, redirect_url, scope }) {
-        this.config = { client_id, client_secret, redirect_url, scope }
+    constructor(clientID: string, clientSecret: string, redirectURL: string, scope: string) {
+        this.clientID = clientID
+        this.clientSecret = clientSecret
+        this.redirectURL = redirectURL
+        this.scope = scope
     }
     getAuthorizeURL(state = '') {
-        const { client_id, scope } = this.config
-        const queryString = qs.stringify({ client_id, scope, state })
+        const queryString = qs.stringify({ client_id: this.clientID, scope: this.scope, state })
         return `${this.url.authorize}?${queryString}`
     }
-    getAccessTokenURL(code) {
-        const { client_id, client_secret } = this.config
-        const query = { client_id, client_secret, code }
+    getAccessTokenURL(code: string) {
+        const query = { client_id: this.clientID, client_secret: this.clientSecret, code }
         const queryString = qs.stringify(query)
         return `${this.url.cross_origin}/${this.url.access_token}?${queryString}`
     }
-    async getAccessToken(code) {
+    async getAccessToken(code: string) {
         const url = this.getAccessTokenURL(code)
         const response = await fetch(url)
         const responseText = await response.text()
-        const responseData = qs.parse(responseText)
-        return responseData
+        const { access_token } = qs.parse(responseText)
+        console.log('access_token:', access_token)
+        return <string>access_token
     }
 }

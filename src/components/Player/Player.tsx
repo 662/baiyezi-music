@@ -14,7 +14,7 @@ const ModeIcons: {
     random: Shuffle,
 }
 
-class Player extends React.Component<PlayerProps> {
+export default class Player extends React.Component<PlayerProps> {
     audio: HTMLAudioElement | null = null
     audioReadied: boolean = false
     progressTimeout?: NodeJS.Timeout
@@ -148,7 +148,9 @@ class Player extends React.Component<PlayerProps> {
                         <IconButton onClick={this.handlePrevButtonClick}>
                             <SkipPrevious fontSize="large" />
                         </IconButton>
-                        <IconButton onClick={this.handlePausedOrPlayButtonClick}>{paused ? <PlayArrow fontSize="large" /> : <Pause fontSize="large" />}</IconButton>
+                        <IconButton onClick={this.handlePausedOrPlayButtonClick}>
+                            {paused ? <PlayArrow fontSize="large" /> : <Pause fontSize="large" />}
+                        </IconButton>
                         <IconButton onClick={this.handleNextButtonClick}>
                             <SkipNext fontSize="large" />
                         </IconButton>
@@ -193,5 +195,3 @@ class Player extends React.Component<PlayerProps> {
         )
     }
 }
-
-export default Player

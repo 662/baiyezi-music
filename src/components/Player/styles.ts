@@ -4,6 +4,7 @@ const styles = (theme: Theme) =>
     createStyles({
         wrapper: {
             width: '100%',
+            backgroundColor: '#fafafa',
             boxShadow: '0px 0px 4px #ddd',
         },
         audioWrapper: {

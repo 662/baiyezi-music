@@ -1,7 +1,5 @@
 import RootStore from './RootStore'
-import { observable, action, flow, computed, autorun, observe } from 'mobx'
-
-import { IDriver, ISong, IDriverInstance } from '../interface'
+import { observable, action, flow, autorun, observe } from 'mobx'
 
 export default class PlayerStore {
     root: RootStore
@@ -103,7 +101,7 @@ export default class PlayerStore {
         const playlistLength = this.root.playlistStore.songs.length
         switch (this.mode) {
             case 'single':
-                this.currentTime = 0
+                this.src += ' '
                 break
             case 'list':
                 this.playlistIndex = this.playlistIndex < playlistLength - 1 ? this.playlistIndex + 1 : 0
@@ -122,7 +120,7 @@ export default class PlayerStore {
         const playlistLength = this.root.playlistStore.songs.length
         switch (this.mode) {
             case 'single':
-                this.currentTime = 0
+                this.src += ' '
                 break
             case 'list':
                 this.playlistIndex = this.playlistIndex > 0 ? this.playlistIndex - 1 : playlistLength - 1

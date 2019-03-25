@@ -1,21 +1,22 @@
 import React from 'react'
 import { inject } from 'mobx-react' // eslint-disable-line
 import qs from 'query-string'
-// import gist from "@src/gist";
-import { oauth } from '@src/gh'
+import { RouteChildrenProps } from 'react-router'
 
-class Github extends React.Component {
+interface GithubProps extends RouteChildrenProps<{ code: string }> {
+    authorizeURL: string
+    getAccessToken(code: string): Promise<void>
+}
+
+class Github extends React.Component<GithubProps> {
     componentDidMount() {
-        const { location, history, session } = this.props
+        const { location, history, authorizeURL, getAccessToken } = this.props
         const { search } = location
         const { code } = qs.parse(search)
         if (code) {
-            oauth.getAccessToken(code).then(r => {
-                session.setToken(r.access_token)
-                history.replace('/')
-            })
+            getAccessToken(code as string).then(() => history.replace('/'))
         } else {
-            window.location.replace(oauth.getAuthorizeURL())
+            window.location.replace(authorizeURL)
         }
     }
     render() {
@@ -23,4 +24,7 @@ class Github extends React.Component {
     }
 }
 
-export default inject(({ store }) => ({ session: store.session }))(Github)
+export default inject(({ githubStore }) => ({
+    authorizeURL: githubStore.authorizeURL,
+    getAccessToken: githubStore.getAccessToken.bind(githubStore) as ((code: string) => Promise<void>),
+}))(Github)

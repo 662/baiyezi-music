@@ -1,7 +1,6 @@
 import RootStore from './RootStore'
-import { observable, action, flow } from 'mobx'
 
-import { IDriver, ISong, IDriverInstance } from '../interface'
+import { IDriverInstance } from '../interface'
 
 export default class DriverStore {
     root: RootStore

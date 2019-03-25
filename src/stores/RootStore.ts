@@ -4,6 +4,8 @@ import PlaylistStore from './PlaylistStore'
 import SonglistStore from './SonglistStore'
 import SnackbarStore from './SnackbarStore'
 import PlayerStore from './PlayerStore'
+import SessionStore from './SessionStore'
+import GithubStore from './GithubStore'
 
 export default class RootStore {
     driverStore: DriverStore
@@ -12,6 +14,8 @@ export default class RootStore {
     songlistStore: SonglistStore
     snackbarStore: SnackbarStore
     playerStore: PlayerStore
+    sessionStore: SessionStore
+    githubStore: GithubStore
 
     constructor() {
         this.driverStore = new DriverStore(this)
@@ -20,5 +24,7 @@ export default class RootStore {
         this.songlistStore = new SonglistStore(this)
         this.snackbarStore = new SnackbarStore(this)
         this.playerStore = new PlayerStore(this)
+        this.sessionStore = new SessionStore(this)
+        this.githubStore = new GithubStore(this)
     }
 }

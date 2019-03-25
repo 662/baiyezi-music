@@ -12,15 +12,17 @@
         "@types/react-dom": "16.8.0",
         "@types/react-router-dom": "^4.3.1",
         "@types/webpack-env": "^1.13.7",
+        "github-api": "^3.0.0",
         "husky": "^1.3.1",
         "lint-staged": "^8.1.5",
         "mobx": "^5.9.0",
         "mobx-react": "^5.4.3",
         "prettier": "^1.16.4",
+        "query-string": "^6.3.0",
         "react": "^16.8.1",
         "react-dom": "^16.8.1",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "2.1.5",
+        "react-scripts": "2.1.8",
         "typescript": "3.3.3"
     },
     "scripts": {

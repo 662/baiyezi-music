@@ -9,6 +9,7 @@ import SonglistFiled from './SonglistFiled'
 
 interface SonglistProps {
     songlistStore: SonglistStore
+    authorizeURL: string
 }
 
 @observer
@@ -17,7 +18,9 @@ class Songlist extends React.Component<SonglistProps> {
         add: false,
     }
     handleShowAdd: MouseEventHandler = e => this.setState({ add: true })
-    handleSync: MouseEventHandler = e => {}
+    handleSync: MouseEventHandler = e => {
+        window.open(this.props.authorizeURL)
+    }
     handleHideAdd = () => this.setState({ add: false })
     handleAddDone = (value: string) => this.props.songlistStore.createSonglist(value)
     handleDelete = (title: string) => {
@@ -40,4 +43,4 @@ class Songlist extends React.Component<SonglistProps> {
     }
 }
 
-export default inject(({ songlistStore }) => ({ songlistStore }))(Songlist)
+export default inject(({ songlistStore, githubStore }) => ({ songlistStore, authorizeURL: githubStore.authorizeURL }))(Songlist)
