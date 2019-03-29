@@ -3,13 +3,14 @@ import { inject, observer } from 'mobx-react'
 import { List } from '@material-ui/core'
 
 import SonglistStore from '../../stores/SonglistStore'
+import GithubStore from '../../stores/GithubStore'
 import SonglistItem from './SonglistItem'
 import SonglistHeader from './SonglistHeader'
 import SonglistFiled from './SonglistFiled'
 
 interface SonglistProps {
     songlistStore: SonglistStore
-    authorizeURL: string
+    githubStore: GithubStore
 }
 
 @observer
@@ -19,7 +20,8 @@ class Songlist extends React.Component<SonglistProps> {
     }
     handleShowAdd: MouseEventHandler = e => this.setState({ add: true })
     handleSync: MouseEventHandler = e => {
-        window.open(this.props.authorizeURL)
+        const { githubStore } = this.props
+        githubStore.token ? githubStore.sync() : window.open('/oauth/github')
     }
     handleHideAdd = () => this.setState({ add: false })
     handleAddDone = (value: string) => this.props.songlistStore.createSonglist(value)
@@ -43,4 +45,4 @@ class Songlist extends React.Component<SonglistProps> {
     }
 }
 
-export default inject(({ songlistStore, githubStore }) => ({ songlistStore, authorizeURL: githubStore.authorizeURL }))(Songlist)
+export default inject(({ songlistStore, githubStore }) => ({ songlistStore, githubStore }))(Songlist)

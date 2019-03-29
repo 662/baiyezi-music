@@ -24,7 +24,8 @@ export default class OAuth {
     getAccessTokenURL(code: string) {
         const query = { client_id: this.clientID, client_secret: this.clientSecret, code }
         const queryString = qs.stringify(query)
-        return `${this.url.cross_origin}/${this.url.access_token}?${queryString}`
+        return `${this.url.access_token}?${queryString}`
+        // return `${this.url.cross_origin}/${this.url.access_token}?${queryString}`
     }
     async getAccessToken(code: string) {
         const url = this.getAccessTokenURL(code)

@@ -7,11 +7,13 @@ import Layout from './layout'
 import Search from './search'
 import Songlist from './songlist'
 import Playlist from './playlist'
+import Github from './oauth/Github'
 
 import history from '../../src/history'
 import RootStore from '../stores/RootStore'
 
 const store = new RootStore()
+window.baiyezi_music_store = store
 
 const theme = createMuiTheme({
     palette: {
@@ -23,16 +25,19 @@ export default function index() {
     return (
         <Provider {...store}>
             <Router history={history}>
-                <MuiThemeProvider theme={theme}>
-                    <Layout>
-                        <Switch>
-                            <Route path="/search" component={Search} />
-                            <Route path="/playlist" component={Playlist} />
-                            <Route path="/songlist/:title" component={Songlist} />
-                            <Redirect path="/" to="/search" />
-                        </Switch>
-                    </Layout>
-                </MuiThemeProvider>
+                <Switch>
+                    <Route path="/oauth/github" component={Github} />
+                    <MuiThemeProvider theme={theme}>
+                        <Layout>
+                            <Switch>
+                                <Route path="/search" component={Search} />
+                                <Route path="/playlist" component={Playlist} />
+                                <Route path="/songlist/:title" component={Songlist} />
+                                <Redirect path="/" to="/search" />
+                            </Switch>
+                        </Layout>
+                    </MuiThemeProvider>
+                </Switch>
             </Router>
         </Provider>
     )

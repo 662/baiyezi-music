@@ -1,10 +1,13 @@
 import { ISong, IDriver, ISearchResult } from '../interface'
+// const cors = `https://cors-anywhere.herokuapp.com/`
 
 export default class QQ implements IDriver {
     static title = 'QQ'
 
     async search(keywords: string, page: number, limit: number): Promise<ISearchResult> {
-        const response = await fetch(`https://c.y.qq.com/soso/fcgi-bin/client_search_cp?p=${page}&n=${limit}&w=${keywords}&format=json&new_json=1&cr=1`)
+        const response = await fetch(
+            `https://c.y.qq.com/soso/fcgi-bin/client_search_cp?p=${page}&n=${limit}&w=${keywords}&format=json&new_json=1&cr=1`
+        )
         const { data } = await response.json()
         const { totalnum, list } = data.song
 
