@@ -25,6 +25,8 @@ export default class GithubStore {
 
     sync() {
         console.log('sync: start.')
+        // todo: sync playlist
+        // todo: sync songlist
     }
 
     getAccessToken = flow(function*(this: GithubStore, code: string) {

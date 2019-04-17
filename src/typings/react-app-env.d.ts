@@ -2,6 +2,8 @@
 
 import { inject } from 'mobx-react'
 import RootStore from './stores/RootStore'
+import { any } from 'prop-types'
+import Github from 'github-api'
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
