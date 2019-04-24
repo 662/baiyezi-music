@@ -27,9 +27,12 @@ export default class PlayerStore {
     @observable src: string = ''
     @observable playlistIndex: number = 0
 
+    get playlist() {
+        return this.root.playlistStore.availableSongs
+    }
     // 当前播放的歌曲
-    get song() {
-        return this.root.playlistStore.songs[this.playlistIndex]
+    get currentSong() {
+        return this.playlist[this.playlistIndex]
     }
 
     constructor(root: RootStore) {
@@ -37,12 +40,13 @@ export default class PlayerStore {
         this.load()
         autorun(() => this.save())
         observe(this, 'playlistIndex', change => this.fetchSrc())
-        if (this.root.playlistStore.songs.length > this.playlistIndex) {
+        if (this.playlist.length > this.playlistIndex) {
             this.fetchSrc()
         } else {
             this.currentTime = 0
             this.duration = 0
             this.playlistIndex = 0
+            this.src = ''
         }
     }
 
@@ -98,7 +102,7 @@ export default class PlayerStore {
 
     @action
     playNext() {
-        const playlistLength = this.root.playlistStore.songs.length
+        const playlistLength = this.playlist.length
         switch (this.mode) {
             case 'single':
                 this.src += ' '
@@ -117,7 +121,7 @@ export default class PlayerStore {
 
     @action
     playPrev() {
-        const playlistLength = this.root.playlistStore.songs.length
+        const playlistLength = this.playlist.length
         switch (this.mode) {
             case 'single':
                 this.src += ' '
@@ -135,9 +139,9 @@ export default class PlayerStore {
     }
 
     fetchSrc = flow(function*(this: PlayerStore) {
-        if (this.song) {
-            const driver = this.root.driverStore.drivers.find(item => item.title === this.song.driver)
-            const src = yield driver!.instance.find(this.song.id)
+        if (this.currentSong) {
+            const driver = this.root.driverStore.drivers.find(item => item.title === this.currentSong.driver)
+            const src = yield driver!.instance.find(this.currentSong.id)
             this.src = src
         } else {
             this.src = ''

@@ -32,7 +32,6 @@ export default class OAuth {
         const response = await fetch(url)
         const responseText = await response.text()
         const { access_token } = qs.parse(responseText)
-        console.log('access_token:', access_token)
         return <string>access_token
     }
 }

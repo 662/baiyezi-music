@@ -5,8 +5,8 @@ import Player from '../../components/Player'
 const PlayerObservered = observer(Player)
 export default inject(({ playerStore }) => ({
     src: playerStore.src,
-    song: playerStore.song ? playerStore.song.name : '',
-    singer: playerStore.song ? playerStore.song.singer.map(s => s.name).join('&') : '',
+    song: playerStore.currentSong ? playerStore.currentSong.name : '',
+    singer: playerStore.currentSong ? playerStore.currentSong.singer.map(s => s.name).join('&') : '',
 
     paused: playerStore.paused,
     muted: playerStore.muted,

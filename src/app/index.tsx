@@ -16,6 +16,9 @@ const store = new RootStore()
 window.baiyezi_music_store = store
 
 const theme = createMuiTheme({
+    typography: {
+        useNextVariants: true,
+    },
     palette: {
         // type: 'dark',
     },

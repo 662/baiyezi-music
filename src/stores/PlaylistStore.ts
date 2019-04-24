@@ -6,6 +6,9 @@ export default class PlaylistStore {
     root: RootStore
     // 播放清单
     @observable songs: ISong[] = []
+    get availableSongs() {
+        return this.songs.filter(s => s.flag !== 'deleted')
+    }
     // 清单存储到storage的key
     storageKey = 'baiyezi-playlist'
 
@@ -32,6 +35,7 @@ export default class PlaylistStore {
         const oldIndex = this.songs.findIndex(predicate)
         let playIndex = oldIndex
         if (oldIndex === -1) {
+            item.flag = 'created'
             this.songs.push(item)
             playIndex = this.songs.length - 1
         }
@@ -50,7 +54,8 @@ export default class PlaylistStore {
     // 清空播放列表
     @action
     clear() {
-        this.songs = []
+        // this.songs = []
+        this.songs.forEach(s => (s.flag = 'deleted'))
         this.root.playerStore.src = ''
         this.root.playerStore.playlistIndex = 0
     }
@@ -58,9 +63,10 @@ export default class PlaylistStore {
     // 删除某一首歌
     @action
     remove(index: number) {
-        this.songs.splice(index, 1)
+        this.songs.find((s, i) => i === index)!.flag = 'deleted'
+        // this.songs.splice(index, 1)
         if (index === this.root.playerStore.playlistIndex) {
-            this.root.playerStore.fetchSrc
+            this.root.playerStore.fetchSrc()
         } else if (index < this.root.playerStore.playlistIndex) {
             this.root.playerStore.playlistIndex--
         }

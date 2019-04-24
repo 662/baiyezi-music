@@ -62,17 +62,20 @@ class Songlist extends React.Component<SonglistProps> {
                     </div>
                 ) : (
                     <List>
-                        {songlist.items.map(song => (
-                            <SongItemInjected
-                                key={song.id + song.driver}
-                                song={song}
-                                extendAction={
-                                    <IconButton onClick={e => onRemove(songlist.title, song.driver, song.id)}>
-                                        <Delete fontSize="small" />
-                                    </IconButton>
-                                }
-                            />
-                        ))}
+                        {songlist.items.map(
+                            song =>
+                                song.flag !== 'deleted' && (
+                                    <SongItemInjected
+                                        key={song.id + song.driver}
+                                        song={song}
+                                        extendAction={
+                                            <IconButton onClick={e => onRemove(songlist.title, song.driver, song.id)}>
+                                                <Delete fontSize="small" />
+                                            </IconButton>
+                                        }
+                                    />
+                                )
+                        )}
                     </List>
                 )}
             </Panel>

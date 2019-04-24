@@ -53,7 +53,7 @@ class Playlist extends React.Component<PlaylistProps> {
 }
 
 export default inject(({ playlistStore }) => ({
-    songs: playlistStore.songs,
+    songs: playlistStore.availableSongs,
     onClear: () => playlistStore.clear(),
     onRemove: (index: number) => playlistStore.remove(index),
 }))(Playlist)

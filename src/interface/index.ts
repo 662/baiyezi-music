@@ -1,3 +1,8 @@
+// 同步
+export interface ISync {
+    flag: '' | 'deleted' | 'created'
+}
+
 // 歌手
 export interface ISinger {
     id: string | number
@@ -9,7 +14,7 @@ export interface IAlbum {
     name: string
 }
 // 歌曲
-export interface ISong {
+export interface ISong extends ISync {
     id: string | number
     name: string
     album: IAlbum
@@ -32,7 +37,7 @@ export interface IDriverInstance {
     instance: IDriver
 }
 // 歌单
-export interface ISonglist {
+export interface ISonglist extends ISync {
     title: string
     items: ISong[]
 }

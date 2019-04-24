@@ -31,15 +31,13 @@ class Songlist extends React.Component<SonglistProps> {
     }
 
     render() {
-        const { songlistStore } = this.props
+        const { songlistStore, githubStore } = this.props
         const { songlists } = songlistStore
         const { add } = this.state
         return (
-            <List subheader={<SonglistHeader onAdd={this.handleShowAdd} onSync={this.handleSync} />} component="nav">
+            <List subheader={<SonglistHeader syncing={githubStore.syncing} onAdd={this.handleShowAdd} onSync={this.handleSync} />} component="nav">
                 {add && <SonglistFiled onDone={this.handleAddDone} onHide={this.handleHideAdd} />}
-                {songlists.map(item => (
-                    <SonglistItem key={item.title} title={item.title} onDelete={this.handleDelete} />
-                ))}
+                {songlists.map(item => item.flag !== 'deleted' && <SonglistItem key={item.title} title={item.title} onDelete={this.handleDelete} />)}
             </List>
         )
     }

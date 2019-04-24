@@ -27,18 +27,23 @@ export default class SonglistStore {
             if (this.songlists.some(item => item.title === title)) {
                 throw new Error(`歌单名已存在`)
             } else {
-                this.songlists.push({ title, items: [] })
+                this.songlists.push({ title, items: [], flag: 'created' })
             }
         }
     }
     @action
     renameSonglist(oldTitle: string, newTitle: string) {
-        let songlist = this.songlists.find(pl => pl.title === oldTitle)
-        songlist!.title = newTitle
+        let songlist = this.songlists.find(pl => pl.title === oldTitle)!
+        songlist.title = newTitle
+
+        // 维护和远端的同步关系
+        songlist.flag = 'created'
+        this.songlists.push({ flag: 'deleted', title: oldTitle, items: [] })
     }
     @action
     deleteSonglist(title: string) {
-        this.songlists = this.songlists.filter(pl => pl.title !== title)
+        // this.songlists = this.songlists.filter(pl => pl.title !== title)
+        this.songlists.find(sl => sl.title === title)!.flag = 'deleted'
     }
     @action
     pushSonglist(title: string, item: ISong) {
@@ -46,12 +51,14 @@ export default class SonglistStore {
         const predicate = (song: ISong) => song.id === item.id && song.driver == item.driver
         const oldIndex = songlist.items.findIndex(predicate)
         if (oldIndex === -1) {
+            item.flag = 'created'
             songlist.items.push(item)
         }
     }
     @action
     popSonglist(title: string, driver: string, id: string | number) {
         const songlist = this.songlists.find(pl => pl.title === title)!
-        songlist.items = songlist.items.filter(pli => pli.driver !== driver || pli.id !== id)
+        // songlist.items = songlist.items.filter(pli => pli.driver !== driver || pli.id !== id)
+        songlist.items.find(sli => sli.driver === driver && sli.id === id)!.flag = 'deleted'
     }
 }
