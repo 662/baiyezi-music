@@ -31,7 +31,7 @@ export default class PlaylistStore {
     // 添加一首歌到播放列表
     @action
     add(item: ISong, play: boolean = false) {
-        const predicate = (song: ISong) => song.id === item.id && song.driver == item.driver
+        const predicate = (song: ISong) => song.id === item.id && song.driver === item.driver
         const oldIndex = this.songs.findIndex(predicate)
         let playIndex = oldIndex
         if (oldIndex === -1) {
