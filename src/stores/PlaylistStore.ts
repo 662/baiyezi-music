@@ -63,7 +63,7 @@ export default class PlaylistStore {
     // 删除某一首歌
     @action
     remove(index: number) {
-        this.songs.find((s, i) => i === index)!.flag = 'deleted'
+        this.songs[index].flag = 'deleted'
         // this.songs.splice(index, 1)
         if (index === this.root.playerStore.playlistIndex) {
             this.root.playerStore.fetchSrc()
