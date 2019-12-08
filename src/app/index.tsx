@@ -27,7 +27,7 @@ const theme = createMuiTheme({
 export default function index() {
     return (
         <Provider {...store}>
-            <Router history={history} basename={process.env.PUBLIC_URL || '/'}>
+            <Router history={history}>
                 <Switch>
                     <Route path="/oauth/github" component={Github} />
                     <MuiThemeProvider theme={theme}>
