@@ -21,7 +21,8 @@ class Songlist extends React.Component<SonglistProps> {
     handleShowAdd: MouseEventHandler = e => this.setState({ add: true })
     handleSync: MouseEventHandler = e => {
         const { githubStore } = this.props
-        githubStore.token ? githubStore.sync() : window.open('/oauth/github')
+        const basepath = process.env.PUBLIC_URL || '/'
+        githubStore.token ? githubStore.sync() : window.open(basepath + '/oauth/github')
     }
     handleHideAdd = () => this.setState({ add: false })
     handleAddDone = (value: string) => this.props.songlistStore.createSonglist(value)
