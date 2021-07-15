@@ -1,12 +1,12 @@
 import { ISong, IDriver, ISearchResult } from '../interface'
-// const cors = `https://cors-anywhere.herokuapp.com/`
+const cors = `https://cross.662.workers.dev/`
 
 export default class Netease implements IDriver {
     static title = '网易'
 
     async search(keywords: string, page: number, limit: number): Promise<ISearchResult> {
         const offset = (page - 1) * limit
-        const response = await fetch(`https://music.163.com/api/cloudsearch/pc?s=${keywords}&type=1&offset=${offset}&limit=${limit}`)
+        const response = await fetch(`${cors}https://music.163.com/api/cloudsearch/pc?s=${keywords}&type=1&offset=${offset}&limit=${limit}`)
         const { result } = await response.json()
         const { songCount, songs } = result
 
@@ -25,7 +25,7 @@ export default class Netease implements IDriver {
         }
     }
     async find(id: string | number): Promise<string> {
-        const response = await fetch(`https://music.163.com/api/song/enhance/player/url?ids=[${id}]&br=320000`)
+        const response = await fetch(`${cors}https://music.163.com/api/song/enhance/player/url?ids=[${id}]&br=320000`)
         const { data } = await response.json()
         return data[0].url
     }
