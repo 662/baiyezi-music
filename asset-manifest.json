@@ -1,13 +1,13 @@
 {
-  "main.css": "/baiyezi-music/static/css/main.5a3096aa.chunk.css",
-  "main.js": "/baiyezi-music/static/js/main.4f80698d.chunk.js",
-  "main.js.map": "/baiyezi-music/static/js/main.4f80698d.chunk.js.map",
-  "runtime~main.js": "/baiyezi-music/static/js/runtime~main.3888d671.js",
-  "runtime~main.js.map": "/baiyezi-music/static/js/runtime~main.3888d671.js.map",
-  "static/js/2.f63e675c.chunk.js": "/baiyezi-music/static/js/2.f63e675c.chunk.js",
-  "static/js/2.f63e675c.chunk.js.map": "/baiyezi-music/static/js/2.f63e675c.chunk.js.map",
-  "index.html": "/baiyezi-music/index.html",
-  "precache-manifest.18cad6f21caa4b1110c2d1cfb51ed483.js": "/baiyezi-music/precache-manifest.18cad6f21caa4b1110c2d1cfb51ed483.js",
-  "service-worker.js": "/baiyezi-music/service-worker.js",
-  "static/css/main.5a3096aa.chunk.css.map": "/baiyezi-music/static/css/main.5a3096aa.chunk.css.map"
+  "main.css": "/static/css/main.7470a6f4.chunk.css",
+  "main.js": "/static/js/main.d35627df.chunk.js",
+  "main.js.map": "/static/js/main.d35627df.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
+  "static/js/2.c363ef32.chunk.js": "/static/js/2.c363ef32.chunk.js",
+  "static/js/2.c363ef32.chunk.js.map": "/static/js/2.c363ef32.chunk.js.map",
+  "index.html": "/index.html",
+  "precache-manifest.0a4114ad169727061d451511a8736cfd.js": "/precache-manifest.0a4114ad169727061d451511a8736cfd.js",
+  "service-worker.js": "/service-worker.js",
+  "static/css/main.7470a6f4.chunk.css.map": "/static/css/main.7470a6f4.chunk.css.map"
 }
