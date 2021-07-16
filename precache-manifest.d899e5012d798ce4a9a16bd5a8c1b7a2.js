@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "d09bbab3c9a555cc49da",
+    "revision": "c687d5e1b91d775b349a",
     "url": "/baiyezi-music/static/css/main.7470a6f4.chunk.css"
   },
   {
-    "revision": "d09bbab3c9a555cc49da",
-    "url": "/baiyezi-music/static/js/main.a84768f7.chunk.js"
+    "revision": "c687d5e1b91d775b349a",
+    "url": "/baiyezi-music/static/js/main.cfc087b3.chunk.js"
   },
   {
     "revision": "2a54862e3d03873c8606",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/baiyezi-music/static/js/2.0e8a9fbb.chunk.js"
   },
   {
-    "revision": "24fd21ae003a4b0c61dbc90ca8be5239",
+    "revision": "5dc372353ff74cbea683402fce2d8e85",
     "url": "/baiyezi-music/index.html"
   }
 ];
