@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/baiyezi-music/precache-manifest.8fe3bbb55cc35e6724c833a49aea5ea9.js"
+  "/baiyezi-music/precache-manifest.fb69c27f80e7f66ef74b9e62ba30e1a8.js"
 );
 
 workbox.clientsClaim();
