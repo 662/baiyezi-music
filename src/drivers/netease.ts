@@ -1,5 +1,5 @@
 import { ISong, IDriver, ISearchResult } from '../interface'
-const cors = `https://cross.662.workers.dev/`
+const cors = `https://cros.662.workers.dev/`
 
 export default class Netease implements IDriver {
     static title = '网易'

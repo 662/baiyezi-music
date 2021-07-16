@@ -1,5 +1,5 @@
 import { ISong, IDriver, ISearchResult } from '../interface'
-const cors = `https://cross.662.workers.dev/`
+const cors = `https://cros.662.workers.dev/`
 
 export default class QQ implements IDriver {
     static title = 'QQ'
@@ -26,6 +26,6 @@ export default class QQ implements IDriver {
         }
     }
     async find(id: string | number): Promise<string> {
-        return `${cors}https://api.bzqll.com/music/tencent/url?key=579621905&id=${id}&br=320`
+        return `https://api.bzqll.com/music/tencent/url?key=579621905&id=${id}&br=320`
     }
 }

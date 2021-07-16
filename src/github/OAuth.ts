@@ -8,7 +8,7 @@ export default class OAuth {
     url = {
         authorize: 'https://github.com/login/oauth/authorize',
         access_token: 'https://github.com/login/oauth/access_token',
-        cross_origin: 'https://cross.662.workers.dev',
+        cross_origin: 'https://cros.662.workers.dev',
     }
 
     constructor(clientID: string, clientSecret: string, redirectURL: string, scope: string) {
