@@ -32,6 +32,9 @@ const styles = (theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
         },
+        snackbar: {
+            bottom: 80
+        }
     })
 
 const variantIcon = {

@@ -19,6 +19,7 @@ const styles = (theme: Theme) =>
             width: '240px',
             height: 'calc(100vh - 67px)',
             borderRight: 'solid 1px #ddd',
+            backgroundColor: '#ffffff',
         },
         content: { width: '100%', padding: '24px 24px 0 24px', marginLeft: '240px', marginBottom: '48px' },
         player: {
