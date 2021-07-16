@@ -31,9 +31,6 @@ const styles = (theme: Theme) =>
         message: {
             display: 'flex',
             alignItems: 'center',
-        },
-        snackbar: {
-            bottom: 80
         }
     })
 
@@ -60,7 +57,7 @@ const Snackbar = ({ key, open, message, onClose, variant, classes, onExited }: S
             key={key}
             ContentProps={{ className: classes[variant] }}
             anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'right',
             }}
             open={open}
